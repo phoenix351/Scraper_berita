@@ -1,0 +1,17 @@
+setup.py
+berita/BeritaLoader.py
+berita/__init__.py
+berita/items.py
+berita/middlewares.py
+berita/pipelines.py
+berita/settings.py
+berita/spiders/__init__.py
+berita/spiders/scraper_detik.py
+berita/spiders/scraper_detikf.py
+berita/spiders/scraper_kompas.py
+berita/spiders/scraper_republika.py
+project.egg-info/PKG-INFO
+project.egg-info/SOURCES.txt
+project.egg-info/dependency_links.txt
+project.egg-info/entry_points.txt
+project.egg-info/top_level.txt

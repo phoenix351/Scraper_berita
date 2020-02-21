@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="default" uuid="9bceb6c0-ee24-4b23-8a9b-a6033cb25c5e">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0" />
+      <auth-required>false</auth-required>
+    </data-source>
+    <data-source name="kompas" uuid="228237af-69dd-4bd8-b639-95bb090b57ad">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0" />
+      <auth-required>false</auth-required>
+      <introspection-schemas>*:</introspection-schemas>
+    </data-source>
+  </component>
+</project>
