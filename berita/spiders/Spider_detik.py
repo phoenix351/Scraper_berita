@@ -4,7 +4,7 @@ from re import findall
 from datetime import datetime,timedelta
 from re import sub
 from berita.items import BeritaItem
-from Database_connection import Database_connection
+from berita.Database_connection import Database_connection
 import sys
 class Detik_scraper(scrapy.Spider):
     name = "detik_spider"

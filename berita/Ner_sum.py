@@ -1,19 +1,14 @@
 from NER_processing import get_summary
 import mysql.connector as MySQLdb
+from Database_connection import Database_connection
 
-host = 'localhost'
-user = 'root'
-password = ''
-db = 'phoenix'
-
-connection = MySQLdb.connect(
-            host=self.host,
-            user=self.user,
-            passwd=self.password,
-            database=self.db
-        )
-cursor = self.connection.cursor()
+db = Database_connection()
+connection = db.connection
+cursor = db.cursor
 
 query = "SELECT * FROM ner_temp"
 cursor.execute(query)
-cursor.fetchall()
+list_res = cursor.fetchall()
+for row in list_res:
+	print(row)
+	

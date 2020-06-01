@@ -16,7 +16,7 @@ class BeritaPipeline(object):
 
         #doing ner modeling
         ner_result = NER_processing.ner_modeling(item['isi_artikel'])
-        query_ner = "INSERT INTO ner_tmp (tanggal,tokoh,organisasi,jabatan,indikator,lokasi,kutipan) VALUES (%s,%s,%s,%s,%s,%s,%s)" 
+        query_ner = "INSERT INTO ner_tmp (tanggal,tokoh,organisasi,posisi,indikator,lokasi,kutipan) VALUES (%s,%s,%s,%s,%s,%s,%s)" 
         parameter = (
             item['tanggal'],
             ner_result[0],
