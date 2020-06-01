@@ -5,6 +5,7 @@ from datetime import datetime,timedelta
 from re import sub
 from berita.items import BeritaItem
 from Database_connection import Database_connection
+import sys
 class Detik_scraper(scrapy.Spider):
     name = "detik_spider"
     #tanggal = "12/18/2019"
@@ -43,7 +44,7 @@ class Detik_scraper(scrapy.Spider):
         url = url+'?single=1'
         jumlah_artikel = jumlah_artikel+1
         yield scrapy.Request(url, callback=self.parse_artikel)
-        
+        sys.exit()
       
       
       if jumlah_artikel> 19 :
