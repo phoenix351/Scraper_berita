@@ -46,7 +46,7 @@ class Detik_scraper(scrapy.Spider):
         
       
       
-      while jumlah_artikel> 19 :
+      if jumlah_artikel> 19 :
         self.hal = self.hal+1
         next_page = 'https://news.detik.com/indeks/'+str(self.hal)+'?date='+self.tanggal
         request = scrapy.Request(url=next_page)
@@ -62,7 +62,7 @@ class Detik_scraper(scrapy.Spider):
       penulis = ' '.join(response.css(penulis_selector).getall())
       judul = response.css(judul_selector).get()
       waktu = response.css(waktu_selector).get()
-      waktu = ''.join(findall('\d{2}\s+[a-zA-Z]+\s+\d{4}\s+\d{2}:\d{2}',waktu))
+      
 
       beda = {
         'Mei':'May',
@@ -73,14 +73,13 @@ class Detik_scraper(scrapy.Spider):
       bulan = ''.join(findall('[a-zA-Z]+',waktu))
       
       try:
+        waktu = ''.join(findall('\d{2}\s+[a-zA-Z]+\s+\d{4}\s+\d{2}:\d{2}',waktu))
         waktu = waktu.replace(bulan,beda[bulan])
+        waktu = datetime.strptime(waktu,'%d %b %Y %H:%M')
       except:
-        print('already same')
+        waktu = self.tanggal
         
-      waktu = datetime.strptime(waktu,'%d %b %Y %H:%M')
-
-
-
+      
       isi = ' '.join(response.css(isi_selector).getall())
       css_ = response.css('style ::text').getall()
       js_ = response.css('script ::text').getall()
