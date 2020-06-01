@@ -1,9 +1,11 @@
 
 import spacy 
+import os
 
 
 def ner_modeling(konten):
-  
+
+  os.chdir("/home/minpo/Scraper_berita/ner_model")
   per = spacy.load('Person')
   pos = spacy.load('Position')
   org = spacy.load('Organization')
