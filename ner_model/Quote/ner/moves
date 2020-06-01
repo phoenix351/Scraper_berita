@@ -1,0 +1,32 @@
+Å´transitions⁄Ç[
+  {
+    "clas":0,
+    "move":1,
+    "label":"quote",
+    "name":"B-quote"
+  },
+  {
+    "clas":1,
+    "move":2,
+    "label":"quote",
+    "name":"I-quote"
+  },
+  {
+    "clas":2,
+    "move":3,
+    "label":"quote",
+    "name":"L-quote"
+  },
+  {
+    "clas":3,
+    "move":4,
+    "label":"quote",
+    "name":"U-quote"
+  },
+  {
+    "clas":4,
+    "move":5,
+    "label":"",
+    "name":"O"
+  }
+]

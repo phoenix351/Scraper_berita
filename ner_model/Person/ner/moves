@@ -1,0 +1,32 @@
+Å´transitions⁄ä[
+  {
+    "clas":0,
+    "move":1,
+    "label":"person",
+    "name":"B-person"
+  },
+  {
+    "clas":1,
+    "move":2,
+    "label":"person",
+    "name":"I-person"
+  },
+  {
+    "clas":2,
+    "move":3,
+    "label":"person",
+    "name":"L-person"
+  },
+  {
+    "clas":3,
+    "move":4,
+    "label":"person",
+    "name":"U-person"
+  },
+  {
+    "clas":4,
+    "move":5,
+    "label":"",
+    "name":"O"
+  }
+]

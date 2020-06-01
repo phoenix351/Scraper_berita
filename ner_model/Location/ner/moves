@@ -1,0 +1,32 @@
+Å´transitions⁄ö[
+  {
+    "clas":0,
+    "move":1,
+    "label":"location",
+    "name":"B-location"
+  },
+  {
+    "clas":1,
+    "move":2,
+    "label":"location",
+    "name":"I-location"
+  },
+  {
+    "clas":2,
+    "move":3,
+    "label":"location",
+    "name":"L-location"
+  },
+  {
+    "clas":3,
+    "move":4,
+    "label":"location",
+    "name":"U-location"
+  },
+  {
+    "clas":4,
+    "move":5,
+    "label":"",
+    "name":"O"
+  }
+]

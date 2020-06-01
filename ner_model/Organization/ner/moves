@@ -1,0 +1,32 @@
+Å´transitions⁄∫[
+  {
+    "clas":0,
+    "move":1,
+    "label":"organization",
+    "name":"B-organization"
+  },
+  {
+    "clas":1,
+    "move":2,
+    "label":"organization",
+    "name":"I-organization"
+  },
+  {
+    "clas":2,
+    "move":3,
+    "label":"organization",
+    "name":"L-organization"
+  },
+  {
+    "clas":3,
+    "move":4,
+    "label":"organization",
+    "name":"U-organization"
+  },
+  {
+    "clas":4,
+    "move":5,
+    "label":"",
+    "name":"O"
+  }
+]

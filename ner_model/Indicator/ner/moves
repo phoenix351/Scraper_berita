@@ -1,0 +1,32 @@
+Å´transitions⁄¢[
+  {
+    "clas":0,
+    "move":1,
+    "label":"indicator",
+    "name":"B-indicator"
+  },
+  {
+    "clas":1,
+    "move":2,
+    "label":"indicator",
+    "name":"I-indicator"
+  },
+  {
+    "clas":2,
+    "move":3,
+    "label":"indicator",
+    "name":"L-indicator"
+  },
+  {
+    "clas":3,
+    "move":4,
+    "label":"indicator",
+    "name":"U-indicator"
+  },
+  {
+    "clas":4,
+    "move":5,
+    "label":"",
+    "name":"O"
+  }
+]
