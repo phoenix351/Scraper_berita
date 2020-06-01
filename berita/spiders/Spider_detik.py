@@ -4,27 +4,28 @@ from re import findall
 from datetime import datetime,timedelta
 from re import sub
 from berita.items import BeritaItem
-import mysql.connector as MySQLdb
+from berita.Database_connection import Database_connection
 class Detik_scraper(scrapy.Spider):
     name = "detik_spider"
     #tanggal = "12/18/2019"
     tanggal = ''
     start_urls = [('https://news.detik.com/indeks?date='+tanggal)]
     hal = 1
-    host = 'localhost'
-    user = 'root'
-    password = ''
-    db = 'phoenix'
-
+    
     def __init__(self,tanggal='',*args,**kwargs):
-      self.connection = MySQLdb.connect(
-            host=self.host,
-            user=self.user,
-            passwd=self.password,
-            database=self.db
-        )
-      self.cursor = self.connection.cursor()
+      db = Database_connection()
+      self.connection = db.connection
+      self.cursor = db.cursor
 
+      '''
+      self.connection = MySQLdb.connect(
+                              host=self.host,
+                              user=self.user,
+                              passwd=self.password,
+                              database=self.db
+                          )
+      self.cursor = self.connection.cursor()
+      '''
       super(Detik_scraper, self).__init__(*args, **kwargs)
       #input = dd-mm-yyyy
       kemarin = datetime.now()-timedelta(1)

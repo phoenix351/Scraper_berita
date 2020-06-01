@@ -6,7 +6,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 from scrapy.exceptions import DropItem
-from  NER_preprocessing import ner_modeling
+from  NER_processing import ner_modeling
 
 class BeritaPipeline(object):
     def process_item(self, item, spider):
