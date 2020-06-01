@@ -15,14 +15,16 @@ class BeritaPipeline(object):
         
 
         #doing ner modeling
-        ner_result =[ner_modeling(item['isi_artikel'])]
-        query_ner = "INSERT INTO ner_tmp (tanggal,tokoh,organisasi,jabatan,indikator) VALUES (%s,%s,%s,%s,%s)" 
+        ner_result =ner_modeling(item['isi_artikel'])
+        query_ner = "INSERT INTO ner_tmp (tanggal,tokoh,organisasi,jabatan,indikator,lokasi,kutipan) VALUES (%s,%s,%s,%s,%s,%s,%s)" 
         parameter = (
             item['tanggal'],
             ner_result[0],
             ner_result[1],
             ner_result[2],
-            ner_result[3]
+            ner_result[3],
+            ner_result[4],
+            ner_result[5]
             )
         try:
             spider.cursor.execute(query_ner, parameter)
