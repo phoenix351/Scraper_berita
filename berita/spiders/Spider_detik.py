@@ -4,7 +4,7 @@ from re import findall
 from datetime import datetime,timedelta
 from re import sub
 from berita.items import BeritaItem
-from berita.Database_connection import Database_connection
+from Database_connection import Database_connection
 class Detik_scraper(scrapy.Spider):
     name = "detik_spider"
     #tanggal = "12/18/2019"
@@ -40,17 +40,18 @@ class Detik_scraper(scrapy.Spider):
       for konten in response.css(konten_selektor):
         link_selector = 'h3.media__title a ::attr(href)'
         url = konten.css(link_selector).extract_first()
+        url = url+'?single=1'
         jumlah_artikel = jumlah_artikel+1
         yield scrapy.Request(url, callback=self.parse_artikel)
-        break
-      '''
-      print('jumlah artikel = ',jumlah_artikel)
+        
+      
+      
       while jumlah_artikel> 19 :
         self.hal = self.hal+1
         next_page = 'https://news.detik.com/indeks/'+str(self.hal)+'?date='+self.tanggal
         request = scrapy.Request(url=next_page)
         yield request
-      '''
+      
         
     def parse_artikel(self,response):
       penulis_selector = 'div.detail__author ::text'

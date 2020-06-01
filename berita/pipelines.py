@@ -6,7 +6,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 from scrapy.exceptions import DropItem
-from  NER_processing import ner_modeling
+from  berita import NER_processing 
 
 class BeritaPipeline(object):
     def process_item(self, item, spider):
@@ -15,7 +15,7 @@ class BeritaPipeline(object):
         
 
         #doing ner modeling
-        ner_result =ner_modeling(item['isi_artikel'])
+        ner_result = NER_processing.ner_modeling(item['isi_artikel'])
         query_ner = "INSERT INTO ner_tmp (tanggal,tokoh,organisasi,jabatan,indikator,lokasi,kutipan) VALUES (%s,%s,%s,%s,%s,%s,%s)" 
         parameter = (
             item['tanggal'],
