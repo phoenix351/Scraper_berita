@@ -1,37 +1,39 @@
 
 import spacy 
 
-per = spacy.load('Person')
-pos = spacy.load('Position')
-org = spacy.load('Organization')
-loc = spacy.load('Location')
-ind = spacy.load('Indicator')
-qot = spacy.load('Quote')
 
 def ner_modeling(konten):
+  
+  per = spacy.load('Person')
+  pos = spacy.load('Position')
+  org = spacy.load('Organization')
+  loc = spacy.load('Location')
+  ind = spacy.load('Indicator')
+  qot = spacy.load('Quote')
+
 
   doc1 = per(konten)
   doc2 = pos(konten)
   doc3 = org(konten)
-  #doc4 = loc(konten)
+  doc4 = loc(konten)
   doc5 = ind(konten)
-  #doc6 = qot(konten)
+  doc6 = qot(konten)
   
   # mengambil teks hasil prediksi dari label
   person_temp = [(e.text) for e in doc1.ents if e.label_ == 'person']
   position_temp = [(e.text) for e in doc2.ents if e.label_ == 'position']
   organization_temp = [(e.text) for e in doc3.ents if e.label_ == 'organization']
-  #location_temp = [(e.text) for e in doc4.ents if e.label_ == 'location']
+  location_temp = [(e.text) for e in doc4.ents if e.label_ == 'location']
   indicator_temp = [(e.text) for e in doc5.ents if e.label_ == 'indicator']
-  #quote_temp = [(e.text) for e in doc6.ents if e.label_ == 'quote']
+  quote_temp = [(e.text) for e in doc6.ents if e.label_ == 'quote']
  
   # memasukkkan hasil prediksi kedalam list
   person=[]
   position=[]
   organization=[]
-  #location=[]
+  location=[]
   indicator=[]
-  #quote=[]
+  quote=[]
 
   
   for row in person_temp:
@@ -43,23 +45,23 @@ def ner_modeling(konten):
   for row in organization_temp:
     if row not in organization:
       organization.append(row)
-  #for row in location_temp:
-  #  if row not in location:
-  #    location.append(row)
+  for row in location_temp:
+    if row not in location:
+      location.append(row)
   for row in indicator_temp:
     if row not in indicator:
       indicator.append(row)
-  #for row in quote_temp:
-  #  if row not in quote:
-  #    quote.append(row)
+  for row in quote_temp:
+    if row not in quote:
+      quote.append(row)
   
   # konversi list to str
-  person = str(person)
-  position = str(position)
-  organization = str(organization)
-  indicator = str(indicator)
+  ner_raw = [person,position,organization,indicator,location,quote]
+  ner_list = [str(row) for row in ner_raw]
+  
 
-  return person,organization,position,indicator
+
+  return ner_list
 def kata2list(kata):
   kata = ganti("[\[\]\']","",kata)
   kata = ganti('"',"",kata)
