@@ -32,3 +32,5 @@ class BeritaItem(scrapy.Item):
         input_processor=MapCompose(remove_tags, clear_mr),
         output_processor=Join()
     )
+    tag = scrapy.Field()
+    sumber = scrapy.Field()

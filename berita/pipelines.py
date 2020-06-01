@@ -5,15 +5,22 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
+from scrapy.exceptions import DropItem
 
 class BeritaPipeline(object):
     def process_item(self, item, spider):
-        query = "INSERT INTO berita (judul, penulis,tanggal,isi) VALUES (%s, %s, %s, %s)"
+        if len(item.get('isi_artikel'))<10:
+            raise  DropItem("Missing isi_artikel %s" % item)
+        
+
+        query = "INSERT INTO berita (judul, penulis,tanggal,isi,tag,sumber) VALUES (%s, %s, %s, %s,%s,%s)"
         params = (
             item['judul'],
             item['penulis'],
-            ''.join(item['tanggal']),
-            ''.join(item['isi_artikel'])
+            item['tanggal'],
+            item['isi_artikel'],
+            item['tag'],
+            item['sumber']
         )
 
 # debug
