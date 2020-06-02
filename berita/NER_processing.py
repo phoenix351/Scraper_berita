@@ -1,6 +1,9 @@
 
 import spacy 
 import os
+from re import sub as ganti
+from collections import Counter
+import operator
 
 
 def ner_modeling(konten):
@@ -96,12 +99,14 @@ def get_summary(ner_list,jenis,tanggal):
       org.append(x)
     
   org = dict(sorted(Counter(org).items(), key=operator.itemgetter(1),reverse=True))
-  nama = pd.Series(pd.Series(org)[0:50].index)
-  nilai = pd.Series(pd.Series(org)[0:50].values)
-  df = pd.concat([nama,nilai],axis=1)
-  
-  df.columns = ['nama_ner','jumlah']
-  df['jenis'] = jenis
-  df['tanggal'] = tanggal
-  df = df[['tanggal','jenis','nama_ner','jumlah']]
-  return df
+  hasil = []
+  for indeks,nilai in org.items():
+    hasil.append((
+      tanggal,
+      jenis,
+      indeks,
+      nilai
+      ))
+
+
+  return hasil
