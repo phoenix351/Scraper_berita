@@ -78,7 +78,7 @@ class Detik_scraper(scrapy.Spider):
         waktu = waktu.replace(bulan,beda[bulan])
         waktu = datetime.strptime(waktu,'%d %b %Y %H:%M')
       except:
-        waktu = self.tanggal
+        waktu = datetime.strptime(self.tanggal,"%m/%d/%Y")
         
       
       isi = ' '.join(response.css(isi_selector).getall())
