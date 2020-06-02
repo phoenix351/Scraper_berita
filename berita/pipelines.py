@@ -10,13 +10,18 @@ from  berita import NER_processing
 
 class BeritaPipeline(object):
     def process_item(self, item, spider):
+        
         if len(item.get('isi_artikel'))<10:
             raise  DropItem("Missing isi_artikel %s" % item)
         
 
         #doing ner modeling
         ner_result = NER_processing.ner_modeling(item['isi_artikel'])
+
+        ner_result[3] = NER_processing.filter_indikator(ner_result[3])[0]
+        
         query_ner = "INSERT INTO ner_tmp (tanggal,tokoh,organisasi,posisi,indikator,lokasi,kutipan) VALUES (%s,%s,%s,%s,%s,%s,%s)" 
+        
         parameter = (
             item['tanggal'],
             ner_result[0],
@@ -36,14 +41,19 @@ class BeritaPipeline(object):
             print(ex)
 
 
-        query = "INSERT INTO berita (judul, penulis,tanggal,isi,tag,sumber) VALUES (%s, %s, %s, %s,%s,%s)"
+
+
+        kelas = NER_processing.filter_indikator(ner_result[3])[1]
+
+        query = "INSERT INTO berita (judul, penulis,tanggal,isi,tag,sumber,kelas) VALUES (%s, %s, %s, %s,%s,%s)"
         params = (
             item['judul'],
             item['penulis'],
             item['tanggal'],
             item['isi_artikel'],
             item['tag'],
-            item['sumber']
+            item['sumber'],
+            kelas
         )
 
 # debug
