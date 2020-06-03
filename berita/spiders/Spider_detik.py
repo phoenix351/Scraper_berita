@@ -18,15 +18,7 @@ class Detik_scraper(scrapy.Spider):
       self.connection = db.connection
       self.cursor = db.cursor
 
-      '''
-      self.connection = MySQLdb.connect(
-                              host=self.host,
-                              user=self.user,
-                              passwd=self.password,
-                              database=self.db
-                          )
-      self.cursor = self.connection.cursor()
-      '''
+     
       super(Detik_scraper, self).__init__(*args, **kwargs)
       #input = dd-mm-yyyy
       kemarin = datetime.now()-timedelta(1)

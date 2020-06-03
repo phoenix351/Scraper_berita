@@ -24,14 +24,9 @@ class Republik_spider(scrapy.Spider):
     
   def __init__(self,tanggal='',*args,**kwargs):
     super(Republik_spider, self).__init__(*args, **kwargs)
-
-    self.connection = MySQLdb.connect(
-            host=self.host,
-            user=self.user,
-            passwd=self.password,
-            database=self.db
-        )
-    self.cursor = self.connection.cursor()
+    db = Database_connection()
+    self.connection = db.connection
+    self.cursor = db.cursor
     
     if len(tanggal)<2:
       tanggal = datetime.now()-timedelta(1)

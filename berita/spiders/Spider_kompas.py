@@ -4,29 +4,19 @@ from datetime import datetime,timedelta
 import sys
 from berita.items import BeritaItem
 import mysql.connector as MySQLdb
+from berita.Database_connection import Database_connection
 class Kompas_spider(scrapy.Spider):
     #tanggal = "2020-3-19"
     name = "kompas_spider"
     download_delay = 0.3
     tanggal=''
-    costum_settings = {
-      'LOG_LEVEL':'ERROR'
-    }
     
-    host = 'localhost'
-    user = 'root'
-    password = ''
-    db = 'phoenix'
     
     hal = 1
     def __init__(self,tanggal='',*args,**kwargs):
-      self.connection = MySQLdb.connect(
-            host=self.host,
-            user=self.user,
-            passwd=self.password,
-            database=self.db
-        )
-      self.cursor = self.connection.cursor()
+      db = Database_connection()
+      self.connection = db.connection
+      self.cursor = db.cursor
 
       super(Kompas_spider, self).__init__(*args, **kwargs)
       

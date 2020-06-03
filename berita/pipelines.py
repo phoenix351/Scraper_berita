@@ -10,7 +10,7 @@ from  berita import NER_processing
 
 class BeritaPipeline(object):
     def process_item(self, item, spider):
-        
+
         if len(item.get('isi_artikel'))<10:
             raise  DropItem("Missing isi_artikel %s" % item)
         
@@ -45,7 +45,7 @@ class BeritaPipeline(object):
 
         kelas = NER_processing.filter_indikator(ner_result[3])[1]
 
-        query = "INSERT INTO berita (judul, penulis,tanggal,isi,tag,sumber,kelas) VALUES (%s, %s, %s, %s,%s,%s)"
+        query = "INSERT INTO berita (judul, penulis,tanggal,isi,tag,sumber,kelas) VALUES (%s, %s, %s, %s,%s,%s,%s)"
         params = (
             item['judul'],
             item['penulis'],
