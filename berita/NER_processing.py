@@ -212,21 +212,31 @@ def ner_modeling(konten,id_berita):
   qot = spacy.load('Quote')
 
 
-  doc1 = per(konten)
-  doc2 = pos(konten)
-  doc3 = org(konten)
-  doc4 = loc(konten)
   doc5 = ind(konten)
-  doc6 = qot(konten)
-  
-  # mengambil teks hasil prediksi dari label
-  person = list(set([(e.text) for e in doc1.ents if e.label_ == 'person']))
-  position = list(set([(e.text) for e in doc2.ents if e.label_ == 'position']))
-  organization = list(set([(e.text) for e in doc3.ents if e.label_ == 'organization']))
-  location = list(set([(e.text) for e in doc4.ents if e.label_ == 'location']))
   indicator = list(set([(e.text) for e in doc5.ents if e.label_ == 'indicator']))
-  quote = list(set([(e.text) for e in doc6.ents if e.label_ == 'quote']))
- 
+  indicator = filter_indikator(indicator)
+  if len(indicator)>=1:
+
+    doc1 = per(konten)
+    doc2 = pos(konten)
+    doc3 = org(konten)
+    doc4 = loc(konten)
+    doc6 = qot(konten)
+  
+    # mengambil teks hasil prediksi dari label
+    person = list(set([(e.text) for e in doc1.ents if e.label_ == 'person']))
+    position = list(set([(e.text) for e in doc2.ents if e.label_ == 'position']))
+    organization = list(set([(e.text) for e in doc3.ents if e.label_ == 'organization']))
+    location = list(set([(e.text) for e in doc4.ents if e.label_ == 'location']))
+    
+    quote = list(set([(e.text) for e in doc6.ents if e.label_ == 'quote']))
+  else:
+    person = []
+    position = []
+    organization = []
+    location = []
+    quote = []
+   
   # memasukkkan hasil prediksi kedalam list
   ner_raw = [person,position,organization,indicator,location,quote]
   ner_dict = {
