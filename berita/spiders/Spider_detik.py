@@ -36,7 +36,7 @@ class Detik_scraper(scrapy.Spider):
         url = url+'?single=1'
         jumlah_artikel = jumlah_artikel+1
         yield scrapy.Request(url, callback=self.parse_artikel)
-        sys.exit()
+        
       
       
       if jumlah_artikel> 19 :

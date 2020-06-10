@@ -32,6 +32,8 @@ class Republik_spider(scrapy.Spider):
       tanggal = datetime.now()-timedelta(1)
       self.tanggal=tanggal.strftime("%Y/%m/%d")
     else:
+      tanggal = datetime.strptime(tanggal,'%d-%m-%Y')
+      tanggal = tanggal.strftime(tanggal,"%Y/%m/%d")
       self.tanggal = tanggal
     
     self.start_urls = [('https://republika.co.id/index/'+self.tanggal)]
@@ -54,8 +56,7 @@ class Republik_spider(scrapy.Spider):
 
     #go to next page
 
-    #print("sekarang halaman =",i,"jumlah url = ",jumlah_berita)
-    sys.exit()
+    
     if jumlah_berita>=40:
       np_sel = 'div.pagination section nav a::attr(href)'
       next_page = response.css(np_sel).getall()[-1]

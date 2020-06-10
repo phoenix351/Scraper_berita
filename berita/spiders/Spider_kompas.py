@@ -21,13 +21,14 @@ class Kompas_spider(scrapy.Spider):
       super(Kompas_spider, self).__init__(*args, **kwargs)
       
       if len(str(tanggal))<2:
-        tanggal=datetime.strftime((datetime.now()-timedelta(1)),'%Y-%m-%d')
+        self.tanggal=datetime.strftime((datetime.now()-timedelta(1)),'%Y-%m-%d')
       else:
-        self.tanggal=tanggal
+        self.tanggal=datetime.strptime(tanggal,'%d-%m-%Y')
+        self.tanggal = datetime.strftime(self.tanggal,'%Y-%m-%d')
 
       
       
-      self.start_urls = [('https://indeks.kompas.com/?site=news&date='+tanggal)]
+      self.start_urls = [('https://indeks.kompas.com/?site=news&date='+self.tanggal)]
 
     def parse(self,response):
       konten_selektor = 'div.article__list.clearfix'
@@ -41,8 +42,7 @@ class Kompas_spider(scrapy.Spider):
         
         req = scrapy.Request(link, callback=self.parse_artikel)
         yield req
-        sys.exit()
-        
+                
       
       print("jumlah berita  =",jumlah_berita,"----halaman =",self.hal)
       #find next page if any.

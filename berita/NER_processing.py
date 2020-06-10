@@ -201,7 +201,7 @@ def filter_indikator(ner_string):
 
 
 
-def ner_modeling(konten):
+def ner_modeling(konten,id_berita):
 
   os.chdir("/home/minpo/Scraper_berita/ner_model")
   per = spacy.load('Person')
@@ -220,48 +220,26 @@ def ner_modeling(konten):
   doc6 = qot(konten)
   
   # mengambil teks hasil prediksi dari label
-  person_temp = [(e.text) for e in doc1.ents if e.label_ == 'person']
-  position_temp = [(e.text) for e in doc2.ents if e.label_ == 'position']
-  organization_temp = [(e.text) for e in doc3.ents if e.label_ == 'organization']
-  location_temp = [(e.text) for e in doc4.ents if e.label_ == 'location']
-  indicator_temp = [(e.text) for e in doc5.ents if e.label_ == 'indicator']
-  quote_temp = [(e.text) for e in doc6.ents if e.label_ == 'quote']
+  person = list(set([(e.text) for e in doc1.ents if e.label_ == 'person']))
+  position = list(set([(e.text) for e in doc2.ents if e.label_ == 'position']))
+  organization = list(set([(e.text) for e in doc3.ents if e.label_ == 'organization']))
+  location = list(set([(e.text) for e in doc4.ents if e.label_ == 'location']))
+  indicator = list(set([(e.text) for e in doc5.ents if e.label_ == 'indicator']))
+  quote = list(set([(e.text) for e in doc6.ents if e.label_ == 'quote']))
  
   # memasukkkan hasil prediksi kedalam list
-  person=[]
-  position=[]
-  organization=[]
-  location=[]
-  indicator=[]
-  quote=[]
-
-  
-  for row in person_temp:
-    if row not in person:
-      person.append(row)
-  for row in position_temp:
-    if row not in position:
-      position.append(row)
-  for row in organization_temp:
-    if row not in organization:
-      organization.append(row)
-  for row in location_temp:
-    if row not in location:
-      location.append(row)
-  for row in indicator_temp:
-    if row not in indicator:
-      indicator.append(row)
-  for row in quote_temp:
-    if row not in quote:
-      quote.append(row)
-  
-  # konversi list to str
   ner_raw = [person,position,organization,indicator,location,quote]
-  ner_list = [str(row) for row in ner_raw]
+  ner_dict = {
+    'id_berita':str(id_berita),
+    'tokoh':str(person),
+    'posisi':str(position),
+    'organisasi':str(organization),
+    'lokasi':str(location),
+    'indikator':str(indicator),
+    'kutipan':str(quote)
+  }
   
-
-
-  return ner_list
+  return ner_dict
 def kata2list(kata):
   kata = ganti("[\[\]\']","",kata)
   kata = ganti('"',"",kata)
