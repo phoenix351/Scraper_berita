@@ -13,7 +13,7 @@ import re
 from berita.Database_connection import Database_connection as db
 import ast
 from concurrent.futures import ThreadPoolExecutor
-Thread = thread_execute(max_workers=7)
+Thread = ThreadPoolExecutor(max_workers=7)
 def justAlphaNum(kata):
     alphanumeric = re.compile(r'[^A-Z0-9]')
     kata = alphanumeric.sub('',kata)
