@@ -108,7 +108,7 @@ def proses_tags(waktu,tags):
         #cek valid tag jika lebih dari 3
         if len(tag) > 3:
             #simpan pada sum tag table
-            simpan_tag(tag)
+            Thread.submit(simpan_tag,tag)
 
 
 def simpan_sentimen(id_berita,id_indikator,sentimen_isi,sentimen_kutipan):
@@ -270,7 +270,9 @@ class BeritaPipeline(object):
         
 
         #insert berita
+        proses_tags(item['waktu'],item['tag'])
         id_berita = insert_berita(item)
+
         #if any duplicate items
         if id_berita==0:
             spider.dropped_count = + 1
