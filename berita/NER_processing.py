@@ -201,9 +201,7 @@ def filter_indikator(ner_string):
   return [str(alias_fix),str(kode)]
 
 
-
-def ner_modeling(konten,id_berita):
-
+def ner_fun(konten,tipe):
   os.chdir("/home/minpo/Scraper_berita/ner_model")
   per = spacy.load('Person')
   pos = spacy.load('Position')
@@ -211,9 +209,20 @@ def ner_modeling(konten,id_berita):
   loc = spacy.load('Location')
   ind = spacy.load('Indicator')
   qot = spacy.load('Quote')
+  maping = {
+  'tokoh':per,
+  'posisi':pos,
+  'organisasi':org,
+  'lokasi':loc,
+  'indikator':ind,
+  'kutipan':qot}
+  fungsi = maping[tipe]
+  hasil = fungsi(konten)
+  return hasil
+def ner_modeling(konten,id_berita):
 
 
-  doc5 = ind(konten)
+  doc5 = ner_fun(konten,'indikator')
   indicator = list(set([(e.text) for e in doc5.ents if e.label_ == 'indicator']))
   list_indikator = []
   for ind in indicator:
@@ -229,11 +238,11 @@ def ner_modeling(konten,id_berita):
   if len(list_indikator)>=1:
 
     with ProcessPoolExecutor(max_workers=6) as ex:
-      doc1 = ex.submit(per,konten)
-      doc2 = ex.submit(pos,konten)
-      doc3 = ex.submit(org,konten)
-      doc4 = ex.submit(loc,konten)
-      doc6 = ex.submit(qot,konten)
+      doc1 = ex.submit(ner_fun,konten,'tokoh')
+      doc2 = ex.submit(ner_fun,konten,'posisi')
+      doc3 = ex.submit(ner_fun,konten,'organisasi')
+      doc4 = ex.submit(ner_fun,konten,'lokasi')
+      doc6 = ex.submit(ner_fun,konten,'kutipan')
     
     doc1 = doc1.result()
     doc2 = doc2.result()
