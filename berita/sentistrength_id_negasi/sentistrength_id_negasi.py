@@ -3,32 +3,34 @@ from __future__ import division
 import re
 from collections import OrderedDict
 import numpy as np
-import time
+import os
 
 
-start_time = time.time()
+
 
 class sentistrength_negasi:
 	def __init__(self, config=dict()):
-		self.negasi = [line.replace('\n','') for line in open("sentistrength_id_negasi/negatingword.txt").read().splitlines()]
-		self.tanya = [line.replace('\n','') for line in open("sentistrength_id_negasi/questionword.txt").read().splitlines()]
+		file_path = os.path.dirname(os.path.abspath(__file__))
+		os.chdir(file_path)
+		self.negasi = [line.replace('\n','') for line in open("negatingword.txt").read().splitlines()]
+		self.tanya = [line.replace('\n','') for line in open("questionword.txt").read().splitlines()]
 		#create sentiment words dictionary
-		self.sentiwords_txt = [line.replace('\n','').split(":") for line in open("sentistrength_id_negasi/sentiwords_id.txt").read().splitlines()]
+		self.sentiwords_txt = [line.replace('\n','').split(":") for line in open("sentiwords_id.txt").read().splitlines()]
 		self.sentiwords_dict = OrderedDict()
 		for term in self.sentiwords_txt:
 			self.sentiwords_dict[term[0]] = int(term[1])
 		#create emoticon dictionary
-		self.emoticon_txt = [line.replace('\n','').split(" | ") for line in open("sentistrength_id_negasi/emoticon_id.txt").read().splitlines()]
+		self.emoticon_txt = [line.replace('\n','').split(" | ") for line in open("emoticon_id.txt").read().splitlines()]
 		self.emoticon_dict = OrderedDict()
 		for term in self.emoticon_txt:
 			self.emoticon_dict[term[0]] = int(term[1])
 		#create idioms dictionary
-		self.idioms_txt = [line.replace('\n','').split(":") for line in open("sentistrength_id_negasi/idioms_id.txt").read().splitlines()]
+		self.idioms_txt = [line.replace('\n','').split(":") for line in open("idioms_id.txt").read().splitlines()]
 		self.idioms_dict = OrderedDict()
 		for term in self.idioms_txt:
 			self.idioms_dict[term[0]] = int(term[1])
 		#create boosterwords dictionary
-		self.boosterwords_txt = [line.replace('\n','').split(":") for line in open("sentistrength_id_negasi/boosterwords_id.txt").read().splitlines()]
+		self.boosterwords_txt = [line.replace('\n','').split(":") for line in open("boosterwords_id.txt").read().splitlines()]
 		self.boosterwords_dict = OrderedDict()
 		for term in self.boosterwords_txt:
 			self.boosterwords_dict[term[0]] = int(term[1])
