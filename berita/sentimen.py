@@ -52,7 +52,4 @@ def sentiment(id_berita,konten,kutipan,indikator):
     'sentimen_kutipan':sq
     }
     return sent
-
- 
-if __name__ == '__main__':
     
