@@ -188,9 +188,11 @@ def proses_ner(item,id_berita):
     #ubah hasil NER kategori NER indikator menjadi id_indikator dan indikator 
     id_indikator = ner_result['indikator'][1]
     indikator = ner_result['indikator'][0]
-    if len(id_indikator)>4:
-        print("update_beritasum...")
-        update_beritasum(item,indikator)
+    print("update_beritasum...")
+    update_beritasum(item,indikator)
+    
+    if len(id_indikator)<4:
+        
         print("simpan_ner...")
         simpan_ner(ner_result,id_berita)
         kutipan = ' '.join(kata2list(ner_result['kutipan']))
@@ -198,7 +200,7 @@ def proses_ner(item,id_berita):
         print("proses_sentimen...")
         proses_sentimen(id_berita,id_indikator,indikator,konten,kutipan)
         
-    return kelas
+    return True
 
 def insert_berita(item):
     query = """INSERT INTO berita_detail (judul,waktu,tag,isi,sumber) 
@@ -238,6 +240,6 @@ class BeritaPipeline(object):
         if id_berita==0:
             return 0
         print('proses ner...')
-        kelas = proses_ner(item,id_berita)
+        proses_ner(item,id_berita)
 
         return item
