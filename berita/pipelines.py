@@ -253,6 +253,7 @@ def insert_berita(item):
         id_generated = database.kursor.lastrowid
     except Exception as ex:
         database.koneksi.rollback()
+        print(ex)
         return 0
     database.tutup()
     return id_generated
