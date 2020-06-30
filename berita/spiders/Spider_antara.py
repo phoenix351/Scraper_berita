@@ -27,7 +27,7 @@ class Antara_spider(scrapy.Spider):
     url_seen = []
     dropped_count = 0
     total_scraped = 0
-    hal = 0
+    hal = 1
     def __init__(self,tanggal='',*args,**kwargs):
       super(Antara_spider, self).__init__(*args, **kwargs)
       try:

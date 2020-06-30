@@ -25,7 +25,7 @@ class Bisnis_spider(scrapy.Spider):
     }
     dropped_count = 0
     total_scraped = 0
-    hal = 0
+    hal = 1
     def __init__(self,tanggal='',*args,**kwargs):
       super(Bisnis_spider, self).__init__(*args, **kwargs)
       try:
@@ -55,7 +55,7 @@ class Bisnis_spider(scrapy.Spider):
         yield req
       #find next page if any.
       if jumlah_berita>14:
-        self.hal = self.hal+1
+        self.hal = self.hal + 1
         next_page = (
         'https://www.bisnis.com/index/page/?c=0&d='+
         self.tanggal+'&d='+
