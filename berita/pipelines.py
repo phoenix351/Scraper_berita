@@ -205,7 +205,6 @@ def insert_berita(item):
         database.koneksi.commit()
     except Exception as ex:
         database.koneksi.rollback()
-        print(ex)
     database.tutup()
 
     query = """INSERT INTO berita_detail (judul,waktu,tag,isi,sumber) 
@@ -227,7 +226,6 @@ def insert_berita(item):
         id_generated = database.kursor.lastrowid
     except Exception as ex:
         database.koneksi.rollback()
-        print(ex)
         return 0
     database.tutup()
     return id_generated
@@ -248,7 +246,7 @@ class BeritaPipeline(object):
         if id_berita==0:
             spider.dropped_count = + 1
             print("duplicate news!")
-            return 0
+            raise  DropItem("artikel duplikat %s" % item)
         print('proses ner...')
         proses_ner(item,id_berita)
 
