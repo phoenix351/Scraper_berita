@@ -11,7 +11,7 @@ from  berita.NER_processing import kata2list
 from berita.sentimen import sentiment
 import re
 from berita.Database_connection import Database_connection as db
-
+import ast
 def isBerita(url):
     site_berita = re.compile(r'https\:\/\/[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+\/berita\S*\/')
     logika = bool(site_berita.search(url))
@@ -28,27 +28,13 @@ def isJS(kalimat):
         return True
     else:
         return False
-def update_beritasum(item,indikator,id_indikator):
+def update_indikatorsum(item,indikator,id_indikator):
     """
     item : item hasil scraping
     indikator : string indikator
     id_indikator : string id indikator
     """
-    #insert summary berita by sumber
-    qsum = """
-    insert into beritasum_sumber
-    values(%s,%s,1)
-    on duplicate key update jumlah = jumlah + 1 
-    """
-    param = (item['waktu'],item['sumber'])
-    database = db()
-    try:
-        database.kursor.execute(qsum,param)
-        database.koneksi.commit()
-    except Exception as ex:
-        database.koneksi.rollback()
-        print(ex)
-    database.tutup()
+    
 
     #insert summary berita by indikator
     qind = """
@@ -187,12 +173,16 @@ def proses_ner(item,id_berita):
     ner_result = NER_processing.ner_modeling(item['isi_artikel'],id_berita)
     
     #ubah hasil NER kategori NER indikator menjadi id_indikator dan indikator 
-    id_indikator = ner_result['indikator'][1]
-    indikator = ner_result['indikator'][0]
-    print("update_beritasum...")
-    update_beritasum(item,indikator,id_indikator)
+    indikator_list = ast.literal_eval(ner_result['indikator'])
+    for row in indikator_list:
+        id_indikator = row['id_indikator']
+        indikator = row['indikator']
+        if len(id_indikator) < 3:
+            continue
+        print("update indikator sum...")
+        update_indikatorsum(item,indikator,id_indikator)    
     
-    if len(id_indikator)<4:
+    if len(id_indikator)>4:
         
         print("simpan_ner...")
         simpan_ner(ner_result,id_berita)
@@ -204,6 +194,22 @@ def proses_ner(item,id_berita):
     return True
 
 def insert_berita(item):
+    #insert summary berita by sumber
+    qsum = """
+    insert into beritasum_sumber
+    values(%s,%s,1)
+    on duplicate key update jumlah = jumlah + 1 
+    """
+    param = (item['waktu'],item['sumber'])
+    database = db()
+    try:
+        database.kursor.execute(qsum,param)
+        database.koneksi.commit()
+    except Exception as ex:
+        database.koneksi.rollback()
+        print(ex)
+    database.tutup()
+
     query = """INSERT INTO berita_detail (judul,waktu,tag,isi,sumber) 
         VALUES (%s, %s, %s, %s,%s)
         """
@@ -214,7 +220,7 @@ def insert_berita(item):
         item['isi_artikel'],
         item['sumber'],
         )
-    # debug
+    # open
     database = db()
     try:
         database.kursor.execute(query, params)
@@ -244,3 +250,4 @@ class BeritaPipeline(object):
         proses_ner(item,id_berita)
 
         return item
+if __name__ == '__main__':

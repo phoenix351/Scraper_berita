@@ -230,8 +230,8 @@ def ner_modeling(konten,id_berita):
     if 'IND' not in filtered[1]:
       continue
     indikator = {
-    'id_indikator':filtered[1],
-    'indikator':filtered[0]
+    'id_indikator':str(filtered[1]),
+    'indikator':str(filtered[0])
     }
     list_indikator.append(indikator)
 
