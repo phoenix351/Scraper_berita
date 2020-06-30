@@ -21,7 +21,7 @@ class BeritaItem(scrapy.Item):
         input_processor=MapCompose(remove_tags, clear_mr),
         output_processor=Join()
     )
-    tanggal = scrapy.Field(
+    waktu = scrapy.Field(
 
     )
     isi_artikel = scrapy.Field(

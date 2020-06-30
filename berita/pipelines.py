@@ -189,7 +189,7 @@ def proses_ner(item,id_berita):
     id_indikator = ner_result['indikator'][1]
     indikator = ner_result['indikator'][0]
     print("update_beritasum...")
-    update_beritasum(item,indikator)
+    update_beritasum(item,indikator,id_indikator)
     
     if len(id_indikator)<4:
         
@@ -208,7 +208,7 @@ def insert_berita(item):
         """
     params = (
         item['judul'],
-        item['tanggal'],
+        item['waktu'],
         item['tag'],
         item['isi_artikel'],
         item['sumber'],
