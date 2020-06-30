@@ -42,6 +42,7 @@ class Republik_spider(scrapy.Spider):
       # crawl each url in particular page
       url = baris.getall()[0]
       if  (not isBerita(url)):
+        jumlah_berita = jumlah_berita+1
         continue
       jumlah_berita = jumlah_berita+1
       req = scrapy.Request(url, callback=self.parse_artikel) 

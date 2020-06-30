@@ -51,6 +51,7 @@ class Antara_spider(scrapy.Spider):
         if (link in self.url_seen):
           sys.exit()
         if (not isBerita(link)):
+          jumlah_berita = jumlah_berita +1
           continue
 
         jumlah_berita = jumlah_berita +1
