@@ -232,7 +232,7 @@ def insert_berita(item):
     waktu = item['waktu']
     sumber = item['sumber']
     #insert summary waktu dan sumber
-    Thread(insert_sum_sumber,waktu,sumber)
+    Thread.submit(insert_sum_sumber,waktu,sumber)
 
     query = """INSERT INTO berita_detail (judul,waktu,tag,isi,sumber) 
         VALUES (%s, %s, %s, %s,%s)
