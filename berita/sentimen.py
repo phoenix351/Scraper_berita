@@ -1,12 +1,15 @@
-from berita.sentistrength_id.sentistrength_id import sentistrength
-from berita.sentistrength_id_negasi.sentistrength_id_negasi import sentistrength_negasi
+try:
+    from berita.sentistrength_id.sentistrength_id import sentistrength
+    from berita.sentistrength_id_negasi.sentistrength_id_negasi import sentistrength_negasi
+except:
+    from sentistrength_id.sentistrength_id import sentistrength
+    from sentistrength_id_negasi.sentistrength_id_negasi import sentistrength_negasi
 import os
 
 # Untuk mengelompokkan sentimen berita dan sentimen kutipan
 
 def sentiment(id_berita,konten,kutipan,indikator):
     file_path = os.path.dirname(os.path.abspath(__file__))
-    os.chdir(file_path)
     # config
     config = dict()
     config["negation"] = True
@@ -23,6 +26,8 @@ def sentiment(id_berita,konten,kutipan,indikator):
     skor = 0
 
     # select konten berita hasil prediksi dari database
+    
+    os.chdir(file_path)
     
     #kutipan = row[2]
     r = indikator
@@ -49,3 +54,5 @@ def sentiment(id_berita,konten,kutipan,indikator):
     return sent
 
  
+if __name__ == '__main__':
+    
