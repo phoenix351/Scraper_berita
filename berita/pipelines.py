@@ -12,6 +12,10 @@ from berita.sentimen import sentiment
 import re
 from berita.Database_connection import Database_connection as db
 import ast
+def justAlphaNum(kata):
+    alphanumeric = re.compile(r'[^A-Z0-9]')
+    kata = alphanumeric.sub('',kata)
+    return kata
 def isBerita(url):
     site_berita = re.compile(r'https\:\/\/[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+\/berita\S*\/')
     logika = bool(site_berita.search(url))
@@ -176,9 +180,12 @@ def proses_ner(item,id_berita):
     indikator_list = ast.literal_eval(ner_result['indikator'])
     for row in indikator_list:
         id_indikator = row['id_indikator']
+        id_indikator = justAlphaNum(id_indikator)
         indikator = row['indikator']
+        indikator = justAlphaNum(indikator)
         if len(id_indikator) < 3:
             continue
+
         print("indikator terdeteksi ! = ",id_indikator)
         print("update indikator sum...")
         update_indikatorsum(item,indikator,id_indikator)    
