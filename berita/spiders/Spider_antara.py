@@ -14,6 +14,7 @@ from re import findall
 from datetime import datetime,timedelta
 import sys
 from berita.pipelines import isBerita
+from berita.items import BeritaItem
 class Antara_spider(scrapy.Spider):
     #tanggal = "2020-3-19"
     name = "antara_spider"

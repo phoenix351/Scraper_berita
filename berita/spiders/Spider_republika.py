@@ -4,7 +4,7 @@ from datetime import datetime,timedelta
 from berita.items import BeritaItem
 import mysql.connector as MySQLdb
 import sys
-  
+from berita.pipelines import isBerita
 class Republik_spider(scrapy.Spider):
   name = "repu_spider"
   tanggal=''
