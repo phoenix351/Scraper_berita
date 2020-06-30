@@ -1,5 +1,5 @@
-from sentistrength_id.sentistrength_id import sentistrength
-from sentistrength_id_negasi.sentistrength_id_negasi import sentistrength_negasi
+from berita.sentistrength_id.sentistrength_id import sentistrength
+from berita.sentistrength_id_negasi.sentistrength_id_negasi import sentistrength_negasi
 
 # Untuk mengelompokkan sentimen berita dan sentimen kutipan
 
@@ -39,7 +39,7 @@ def sentiment(id_berita,konten,kutipan,indikator):
 
     sent = {
     'id_berita':id_berita,
-    'indikator':indikator
+    'indikator':indikator,
     'sentimen_isi':sk,
     'sentimen_kutipan':sq
     }
