@@ -58,7 +58,7 @@ class Antara_spider(scrapy.Spider):
         req = scrapy.Request(link, callback=self.parse_artikel)
         self.url_seen.append(link)
         yield req
-        sys.exit()
+        
      
       #find next page if any.
       if jumlah_berita>9:
