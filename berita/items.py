@@ -31,4 +31,4 @@ class BeritaItem(scrapy.Item):
     tag = scrapy.Field()
     sumber = scrapy.Field()
     def __repr__(self):
-        return str(self.judul)
+        return str(self['judul'])
