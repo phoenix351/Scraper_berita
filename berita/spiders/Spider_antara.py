@@ -31,7 +31,7 @@ class Antara_spider(scrapy.Spider):
       try:
         tanggal = datetime.strptime(tanggal,"%Y-%m-%d")
         self.tanggal=datetime.strftime(tanggal,'%d-%m-%Y')
-      else:
+      except:
         kemarin = (datetime.now() - timedelta(1))
         self.tanggal=datetime.strftime(kemarin,'%d-%m-%Y')      
       

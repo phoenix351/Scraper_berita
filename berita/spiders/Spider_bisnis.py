@@ -34,10 +34,7 @@ class Bisnis_spider(scrapy.Spider):
       except:
         kemarin = (datetime.now() - timedelta(1))
         self.tanggal=datetime.strftime(kemarin,'%d+%B+%Y')
-      
-
-      
-      
+            
       self.start_urls = [(
         'https://www.bisnis.com/index/page/?c=0&d='+
         self.tanggal+'&d='+

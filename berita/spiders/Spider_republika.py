@@ -25,7 +25,7 @@ class Republik_spider(scrapy.Spider):
       tanggal = datetime.strptime(tanggal,'%Y-%m-%d')
       tanggal = tanggal.strftime(tanggal,"%Y/%m/%d")
       self.tanggal = tanggal      
-    else:
+    except:
       tanggal = datetime.now()-timedelta(1)
       self.tanggal=tanggal.strftime("%Y/%m/%d")      
     
