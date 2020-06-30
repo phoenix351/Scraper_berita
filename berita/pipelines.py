@@ -181,16 +181,13 @@ def proses_ner(item,id_berita):
             continue
         print("update indikator sum...")
         update_indikatorsum(item,indikator,id_indikator)    
-    
-    if len(id_indikator)>4:
-        
         print("simpan_ner...")
         simpan_ner(ner_result,id_berita)
         kutipan = ' '.join(kata2list(ner_result['kutipan']))
         konten = item['isi_artikel']
         print("proses_sentimen...")
         proses_sentimen(id_berita,id_indikator,indikator,konten,kutipan)
-        
+    
     return True
 
 def insert_berita(item):
