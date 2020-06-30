@@ -215,8 +215,18 @@ def ner_modeling(konten,id_berita):
 
   doc5 = ind(konten)
   indicator = list(set([(e.text) for e in doc5.ents if e.label_ == 'indicator']))
-  indicator = filter_indikator(indicator)
-  if len(indicator[1])>=3:
+  list_indikator = []
+  for ind in indicator:
+    filtered = filter_indikator(ind)
+    if 'IND' not in filtered[1]:
+      continue
+    indikator = {
+    'id_indikator':filtered[1],
+    'indikator':filtered[0]
+    }
+    list_indikator.append(indikator)
+
+  if len(list_indikator)>=1:
 
     with ProcessPoolExecutor(max_workers=6) as ex:
       doc1 = ex.submit(per,konten)
@@ -252,7 +262,7 @@ def ner_modeling(konten,id_berita):
     'posisi':str(position),
     'organisasi':str(organization),
     'lokasi':str(location),
-    'indikator':str(indicator),
+    'indikator':str(list_indikator),
     'kutipan':str(quote)
   }
   
