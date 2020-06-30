@@ -3,8 +3,8 @@ from re import findall
 from datetime import datetime,timedelta
 import sys
 from berita.items import BeritaItem
-import mysql.connector as MySQLdb
 from berita.Database_connection import Database_connection
+
 class Kompas_spider(scrapy.Spider):
     #tanggal = "2020-3-19"
     name = "kompas_spider"
@@ -61,16 +61,12 @@ class Kompas_spider(scrapy.Spider):
       
     def parse_artikel(self,response):
       
-      penulis_selector = 'div#penulis ::text'
       judul_selector = 'h1.read__title ::text'
       waktu_selector = 'div.read__time ::text'
       isi_selector = 'div.read__content p ::text'
       tag_selector = 'a.tag__article__link ::text'
             
-      try:
-        penulis = response.css(penulis_selector).getall()[-1]
-      except:
-        penulis="Anonim"
+     
       judul = response.css(judul_selector).get()
       waktu = response.css(waktu_selector).get()
       isi = response.css(isi_selector).getall()
@@ -97,7 +93,6 @@ class Kompas_spider(scrapy.Spider):
       # masukkan ke item pipeline
       item = BeritaItem()
       item['tanggal'] = waktu_ob
-      item['penulis'] = penulis
       item['judul'] = judul
       item['isi_artikel'] = isi
       item['tag']=tag

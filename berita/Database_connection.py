@@ -6,13 +6,15 @@ class Database_connection:
 	user = 'root'
 	password = ''
 	#password = '1234'
-	db = 'phoenix'
+	db = 'skripsi_db'
 
 	def __init__(self,tanggal='',*args,**kwargs):
-		self.connection = MySQLdb.connect(
+		self.koneksi = MySQLdb.connect(
 	            host=self.host,
 	            user=self.user,
 	            passwd=self.password,
 	            database=self.db
 	        )
-		self.cursor = self.connection.cursor()
+		self.kursor = self.koneksi.cursor()
+	def tutup(self):
+		self.koneksi.close()

@@ -1,0 +1,55 @@
+Indeks Harga Perdagangan Besar (IHPB)
+Indeks Harga Konsumen (IHK)
+Inflasi
+Indeks Konsumsi Rumah Tangga (IKRT)
+Inflasi Perdesaan
+Indeks Harga yang Dibayar Petani (Ib)
+Indeks Implisit
+Rasio Penumpang per Pesawat Udara
+Rasio Barang per Pesawat Udara
+Rasio Penumpang per Kapal
+Rasio Barang per Kapal
+Rasio Penduduk terhadap Mobil Penumpang
+Rasio Penduduk terhadap Kendaraan Bermotor
+Rasio Penduduk terhadap Bus Umum
+Jumlah Kendaraan Bermotor
+Rasio Kendaraan Bermotor terhadap Panjang Jalan
+Angka Putus Sekolah
+Rasio Murid-Guru
+Persentase Penduduk Sakit dengan Pengobatan sendiri
+Rata-Rata Jumlah Anak yang Pernah Dilahirkan/Paritas
+Angka Kelahiran Kasar
+Angka Kelahiran Menurut Umur
+Angka Kelahiran Total
+Angka Kelahiran Umum
+Angka Reproduksi Neto
+Angka Reproduksi Kasar
+Rasio Anak-Ibu
+Angka Kematian Anak (AKA)
+Angka Kematian Balita (AKBa)
+Angka Kematian Bayi (AKB)
+Angka Kematian Ibu (AKI)
+Angka Kematian Kasar (AKK)
+Angka Kematian Menurut Usia (AKMU)
+Angka Kematian Neo-natal
+Angka Kematian Post Neo-natal
+Angka Kesakitan/ Morbiditas/Persentase Penduduk yang Mempunyai Keluhan Kesehatan
+Rata-Rata Lama Sakit
+Tingkat Prevalensi
+Insidensi
+Angka Fatalitas Kasus
+Angka Daya Tular
+Tingkat Serangan
+Kepadatan Penduduk
+Laju Pertumbuhan Penduduk
+Garis Kemiskinan (GK)
+Persentase Penduduk Miskin
+Indeks Kedalaman Kemiskinan
+Indeks Keparahan Kemiskinan
+Indeks Kemiskinan Manusia (IKM)
+Ketimpangan Pendapatan (Ukuran Bank Dunia)
+Koefisien Gini
+Setengah Penganggur
+Tingkat Pengangguran Terbuka (TPT)
+Rasio Ketergantungan
+Indeks Pembangunan Gender (IPG)

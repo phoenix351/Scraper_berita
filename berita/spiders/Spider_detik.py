@@ -33,6 +33,8 @@ class Detik_scraper(scrapy.Spider):
       for konten in response.css(konten_selektor):
         link_selector = 'h3.media__title a ::attr(href)'
         url = konten.css(link_selector).extract_first()
+        if (not isBerita(url)):
+          continue
         url = url+'?single=1'
         jumlah_artikel = jumlah_artikel+1
         yield scrapy.Request(url, callback=self.parse_artikel)
@@ -47,12 +49,11 @@ class Detik_scraper(scrapy.Spider):
       
         
     def parse_artikel(self,response):
-      penulis_selector = 'div.detail__author ::text'
+      
       judul_selector = 'h1.detail__title ::text'
       waktu_selector = 'div.detail__date ::text'
       isi_selector = 'div.detail__body-text ::text'
       tag_selector = 'div.detail__body-tag.mgt-16 div a ::text'
-      penulis = ' '.join(response.css(penulis_selector).getall())
       judul = response.css(judul_selector).get()
       waktu = response.css(waktu_selector).get()
       
@@ -94,7 +95,6 @@ class Detik_scraper(scrapy.Spider):
         
       item = BeritaItem()
       item['tanggal'] = waktu
-      item['penulis'] = penulis
       item['judul'] = judul
       item['isi_artikel'] = isi
       item['tag']=tag

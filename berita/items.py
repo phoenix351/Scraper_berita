@@ -21,10 +21,6 @@ class BeritaItem(scrapy.Item):
         input_processor=MapCompose(remove_tags, clear_mr),
         output_processor=Join()
     )
-    penulis = scrapy.Field(
-        input_processor=MapCompose(remove_tags, clear_mr),
-        output_processor=Join()
-    )
     tanggal = scrapy.Field(
 
     )
