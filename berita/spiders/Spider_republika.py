@@ -2,7 +2,6 @@ import scrapy
 from re import findall
 from datetime import datetime,timedelta
 from berita.items import BeritaItem
-import mysql.connector as MySQLdb
 import sys
 from berita.pipelines import isBerita
 class Republik_spider(scrapy.Spider):
@@ -22,13 +21,13 @@ class Republik_spider(scrapy.Spider):
   def __init__(self,tanggal='',*args,**kwargs):
     super(Republik_spider, self).__init__(*args, **kwargs)
    
-    if len(tanggal)<2:
-      tanggal = datetime.now()-timedelta(1)
-      self.tanggal=tanggal.strftime("%Y/%m/%d")
-    else:
-      tanggal = datetime.strptime(tanggal,'%d-%m-%Y')
+    try:
+      tanggal = datetime.strptime(tanggal,'%Y-%m-%d')
       tanggal = tanggal.strftime(tanggal,"%Y/%m/%d")
-      self.tanggal = tanggal
+      self.tanggal = tanggal      
+    else:
+      tanggal = datetime.now()-timedelta(1)
+      self.tanggal=tanggal.strftime("%Y/%m/%d")      
     
     self.start_urls = [('https://republika.co.id/index/'+self.tanggal)]
     

@@ -28,12 +28,13 @@ class Bisnis_spider(scrapy.Spider):
     hal = 0
     def __init__(self,tanggal='',*args,**kwargs):
       super(Bisnis_spider, self).__init__(*args, **kwargs)
-      if len(str(tanggal))<2:
+      try:
+        tanggal = datetime.strptime(tanggal,"%Y-%m-%d")
+        self.tanggal=datetime.strftime(tanggal,'%d+%B+%Y')
+      except:
         kemarin = (datetime.now() - timedelta(1))
         self.tanggal=datetime.strftime(kemarin,'%d+%B+%Y')
-      else:
-        tanggal = datetime.strptime(tanggal,"%d-%m-%Y")
-        self.tanggal=datetime.strftime(tanggal,'%d+%B+%Y')
+      
 
       
       

@@ -28,14 +28,12 @@ class Antara_spider(scrapy.Spider):
     hal = 0
     def __init__(self,tanggal='',*args,**kwargs):
       super(Antara_spider, self).__init__(*args, **kwargs)
-      if len(str(tanggal))<2:
-        kemarin = (datetime.now() - timedelta(1))
-        self.tanggal=datetime.strftime(kemarin,'%d-%m-%Y')
-      else:
-        tanggal = datetime.strptime(tanggal,"%d-%m-%Y")
+      try:
+        tanggal = datetime.strptime(tanggal,"%Y-%m-%d")
         self.tanggal=datetime.strftime(tanggal,'%d-%m-%Y')
-
-      
+      else:
+        kemarin = (datetime.now() - timedelta(1))
+        self.tanggal=datetime.strftime(kemarin,'%d-%m-%Y')      
       
       self.start_urls = [(
         'https://www.antaranews.com/indeks/'+

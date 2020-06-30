@@ -15,17 +15,19 @@ class Detik_scraper(scrapy.Spider):
     hal = 1
     
     def __init__(self,tanggal='',*args,**kwargs):
-      db = Database_connection()
-      self.connection = db.connection
-      self.cursor = db.cursor
-
-     
+           
       super(Detik_scraper, self).__init__(*args, **kwargs)
       #input = dd-mm-yyyy
-      kemarin = datetime.now()-timedelta(1)
-      kemarin_string = kemarin.strftime("%m/%d/%Y")
+      try:
+        t = datetime.strptime(tanggal,'%Y-%m-%d')
+        self.tanggal = t.strftime("%m/%d/%Y")
+      except:
+        kemarin = datetime.now()-timedelta(1)
+        kemarin_string = kemarin.strftime("%m/%d/%Y")
+        self.tanggal= kemarin_string
 
-      self.tanggal= kemarin_string
+
+      
       self.start_urls = [('https://news.detik.com/indeks?date='+self.tanggal)]
 
     def parse(self,response):

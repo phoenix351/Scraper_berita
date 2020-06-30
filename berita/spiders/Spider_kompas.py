@@ -17,9 +17,9 @@ class Kompas_spider(scrapy.Spider):
       
       super(Kompas_spider, self).__init__(*args, **kwargs)
       
-      if len(str(tanggal))<2:
+      try:
         self.tanggal=datetime.strftime((datetime.now()-timedelta(1)),'%Y-%m-%d')
-      else:
+      except:
         self.tanggal=datetime.strptime(tanggal,'%d-%m-%Y')
         self.tanggal = datetime.strftime(self.tanggal,'%Y-%m-%d')
 
