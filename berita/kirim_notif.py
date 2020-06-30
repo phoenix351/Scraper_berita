@@ -29,8 +29,9 @@ def main():
 	
 	try:
 		session.login(sender_address, sender_pass) #login with mail_id and password
-	except:
+	except Exception as ex:
 		print("Login gagal")
+		print(ex)
 		return
 	
 	text = message.as_string()
