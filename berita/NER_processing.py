@@ -216,7 +216,7 @@ def ner_modeling(konten,id_berita):
   doc5 = ind(konten)
   indicator = list(set([(e.text) for e in doc5.ents if e.label_ == 'indicator']))
   indicator = filter_indikator(indicator)
-  if len(indicator)>=1:
+  if len(indicator[1])>=3:
 
     with ProcessPoolExecutor(max_workers=6) as ex:
       doc1 = ex.submit(per,konten)
@@ -246,9 +246,8 @@ def ner_modeling(konten,id_berita):
     quote = []
    
   # memasukkkan hasil prediksi kedalam list
-  ner_raw = [person,position,organization,indicator,location,quote]
+  
   ner_dict = {
-    'id_berita':str(id_berita),
     'tokoh':str(person),
     'posisi':str(position),
     'organisasi':str(organization),

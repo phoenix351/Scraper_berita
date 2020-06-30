@@ -167,12 +167,12 @@ def simpan_ner(ner_result,id_berita):
     """ 
     parameter = (
         id_berita,
-        ner_result[3],
-        ner_result[0],
-        ner_result[1],
-        ner_result[2],
-        ner_result[4],
-        ner_result[5])
+        ner_result['indikator'],
+        ner_result['tokoh'],
+        ner_result['organisasi'],
+        ner_result['posisi'],
+        ner_result['lokasi'],
+        ner_result['kutipan'])
     
     database = db()
     try:
@@ -183,17 +183,17 @@ def simpan_ner(ner_result,id_berita):
         print(ex)
     database.tutup()
 def proses_ner(item,id_berita):
-    ner_result = NER_processing.ner_modeling(item['isi_artikel'])
+    ner_result = NER_processing.ner_modeling(item['isi_artikel'],id_berita)
     
     #ubah hasil NER kategori NER indikator menjadi id_indikator dan indikator 
-    id_indikator = NER_processing.filter_indikator(ner_result[3])[1]
-    indikator = NER_processing.filter_indikator(ner_result[3])[0]
+    id_indikator = ner_result['indikator'][1]
+    indikator = ner_result['indikator'][0]
     if len(id_indikator)>4:
         print("update_beritasum...")
         update_beritasum(item,indikator)
         print("simpan_ner...")
         simpan_ner(ner_result,id_berita)
-        kutipan = ' '.join(kata2list(ner_result[5]))
+        kutipan = ' '.join(kata2list(ner_result['kutipan']))
         konten = item['isi_artikel']
         print("proses_sentimen...")
         proses_sentimen(id_berita,id_indikator,indikator,konten,kutipan)
@@ -201,8 +201,8 @@ def proses_ner(item,id_berita):
     return kelas
 
 def insert_berita(item):
-    query = """INSERT INTO berita (judul,waktu,tag,isi,sumber) 
-        VALUES (%s, %s, %s, %s,%s,%s,%s)
+    query = """INSERT INTO berita_detail (judul,waktu,tag,isi,sumber) 
+        VALUES (%s, %s, %s, %s,%s)
         """
     params = (
         item['judul'],
