@@ -45,7 +45,7 @@ class Detik_scraper(scrapy.Spider):
         
       
       
-      if jumlah_artikel> 19 :
+      if jumlah_berita> 19 :
         self.hal = self.hal+1
         next_page = 'https://news.detik.com/indeks/'+str(self.hal)+'?date='+self.tanggal
         request = scrapy.Request(url=next_page)
