@@ -179,6 +179,7 @@ def proses_ner(item,id_berita):
         indikator = row['indikator']
         if len(id_indikator) < 3:
             continue
+        print("indikator terdeteksi ! = ",id_indikator)
         print("update indikator sum...")
         update_indikatorsum(item,indikator,id_indikator)    
         print("simpan_ner...")
