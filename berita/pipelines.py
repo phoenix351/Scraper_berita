@@ -138,7 +138,7 @@ def proses_sentimen(id_berita,id_indikator,indikator,konten,kutipan):
     #parameter sentimen isi
     par_isi = (id_berita,id_indikator,indikator,hasil_sentimen['sentimen_isi'],'isi')
     #parameter sentimen kutipan
-    par_kutipan = (id_berita,id_indikator,indikator,hasil_sentimen['kutipan'],'kutipan')
+    par_kutipan = (id_berita,id_indikator,indikator,hasil_sentimen['sentimen_kutipan'],'kutipan')
     #prepare  database connection
     database = db()
     #execute 
