@@ -52,11 +52,7 @@ class Okezone_spider(scrapy.Spider):
         
         req = scrapy.Request(link, callback=self.parse_artikel)
         yield req
-      print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-      print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-      print("jumlah berita  =",jumlah_berita,"----halaman =",self.hal)
-      print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-      print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+      
       #find next page if any.
       if jumlah_berita>14:
         self.hal = self.hal+15

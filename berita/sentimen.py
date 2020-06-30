@@ -5,7 +5,7 @@ except:
     from sentistrength_id.sentistrength_id import sentistrength
     from sentistrength_id_negasi.sentistrength_id_negasi import sentistrength_negasi
 import os
-from NER_processing import kata2list as kata2list
+from berita.NER_processing import kata2list 
 # Untuk mengelompokkan sentimen berita dan sentimen kutipan
 
 def sentiment(id_berita,konten,kutipan,indikator):

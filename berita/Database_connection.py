@@ -1,9 +1,9 @@
 import mysql.connector as MySQLdb
 class Database_connection:
 
-	host = '192.168.43.7'
-	#host = 'localhost'
-	user = 'root'
+	#host = '192.168.43.7'
+	host = 'localhost'
+	user = 'ponimin'
 	#password = ''
 	password = '1234'
 	db = 'skripsi_db'

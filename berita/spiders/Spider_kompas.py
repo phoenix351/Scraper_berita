@@ -3,7 +3,7 @@ from re import findall
 from datetime import datetime,timedelta
 import sys
 from berita.items import BeritaItem
-from berita.Database_connection import Database_connection
+
 
 class Kompas_spider(scrapy.Spider):
     #tanggal = "2020-3-19"
@@ -14,10 +14,7 @@ class Kompas_spider(scrapy.Spider):
     
     hal = 1
     def __init__(self,tanggal='',*args,**kwargs):
-      db = Database_connection()
-      self.connection = db.connection
-      self.cursor = db.cursor
-
+      
       super(Kompas_spider, self).__init__(*args, **kwargs)
       
       if len(str(tanggal))<2:

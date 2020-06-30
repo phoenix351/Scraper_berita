@@ -250,4 +250,3 @@ class BeritaPipeline(object):
         proses_ner(item,id_berita)
 
         return item
-if __name__ == '__main__':
