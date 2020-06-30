@@ -204,7 +204,7 @@ def filter_indikator(ner_string):
 
 def ner_modeling(konten,id_berita):
 
-  os.chdir("/home/ponimin/Scraper_berita/ner_model")
+  os.chdir("/home/minpo/Scraper_berita/ner_model")
   per = spacy.load('Person')
   pos = spacy.load('Position')
   org = spacy.load('Organization')
