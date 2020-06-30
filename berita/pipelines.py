@@ -7,6 +7,7 @@
 
 from scrapy.exceptions import DropItem
 from  berita import NER_processing 
+from  berita.NER_processing import kata2list
 from berita.sentimen import sentiment
 import re
 from berita.Database_connection import Database_connection as db
