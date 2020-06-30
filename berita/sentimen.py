@@ -1,9 +1,12 @@
 from berita.sentistrength_id.sentistrength_id import sentistrength
 from berita.sentistrength_id_negasi.sentistrength_id_negasi import sentistrength_negasi
+import os
 
 # Untuk mengelompokkan sentimen berita dan sentimen kutipan
 
 def sentiment(id_berita,konten,kutipan,indikator):
+    file_path = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(file_path)
     # config
     config = dict()
     config["negation"] = True
