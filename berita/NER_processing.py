@@ -238,42 +238,45 @@ def ner_modeling(konten,id_berita):
 
   if len(list_indikator)>=1:
 
-    with ProcessPoolExecutor(max_workers=6) as ex:
-      doc1 = ex.submit(ner_fun,konten,'tokoh')
-      doc2 = ex.submit(ner_fun,konten,'posisi')
-      doc3 = ex.submit(ner_fun,konten,'organisasi')
-      doc4 = ex.submit(ner_fun,konten,'lokasi')
-      doc6 = ex.submit(ner_fun,konten,'kutipan')
+    with ProcessPoolExecutor(max_workers=5) as ex:
+      ner_tokoh = ex.submit(ner_fun,konten,'tokoh')
+      ner_posisi = ex.submit(ner_fun,konten,'posisi')
+      ner_organisasi = ex.submit(ner_fun,konten,'organisasi')
+      ner_lokasi = ex.submit(ner_fun,konten,'lokasi')
+      ner_kutipan = ex.submit(ner_fun,konten,'kutipan')
     
-    doc1 = doc1.result()
-    doc2 = doc2.result()
-    doc3 = doc3.result()
-    doc4 = doc4.result()
-    doc6 = doc6.result()
   
     # mengambil teks hasil prediksi dari label
-    person = list(set([(e.text) for e in doc1.ents if e.label_ == 'person']))
-    position = list(set([(e.text) for e in doc2.ents if e.label_ == 'position']))
-    organization = list(set([(e.text) for e in doc3.ents if e.label_ == 'organization']))
-    location = list(set([(e.text) for e in doc4.ents if e.label_ == 'location']))
+    ner_tokoh = ner_tokoh.result()
+    tokoh = list(set([(e.text) for e in ner_tokoh.ents if e.label_ == 'person']))
+
+    ner_posisi = ner_posisi.result()
+    posisi = list(set([(e.text) for e in ner_posisi.ents if e.label_ == 'position']))
+
+    ner_organisasi = ner_organisasi.result()
+    organisasi = list(set([(e.text) for e in ner_organisasi.ents if e.label_ == 'organization']))
+
+    ner_lokasi = ner_lokasi.result()
+    lokasi = list(set([(e.text) for e in ner_lokasi.ents if e.label_ == 'location']))
     
-    quote = list(set([(e.text) for e in doc6.ents if e.label_ == 'quote']))
+    ner_kutipan = ner_kutipan.result()
+    kutipan = list(set([(e.text) for e in ner_kutipan.ents if e.label_ == 'quote']))
   else:
-    person = []
-    position = []
-    organization = []
-    location = []
-    quote = []
+    tokoh = []
+    posisi = []
+    organisasi = []
+    lokasi = []
+    kutipan = []
    
   # memasukkkan hasil prediksi kedalam list
   
   ner_dict = {
-    'tokoh':str(person),
-    'posisi':str(position),
-    'organisasi':str(organization),
-    'lokasi':str(location),
+    'tokoh':str(tokoh),
+    'posisi':str(posisi),
+    'organisasi':str(organisasi),
+    'lokasi':str(lokasi),
     'indikator':str(list_indikator),
-    'kutipan':str(quote)
+    'kutipan':str(kutipan)
   }
   
   return ner_dict

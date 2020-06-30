@@ -12,6 +12,8 @@ from berita.sentimen import sentiment
 import re
 from berita.Database_connection import Database_connection as db
 import ast
+from concurrent.futures import ThreadPoolExecutor
+Thread = thread_execute(max_workers=7)
 def justAlphaNum(kata):
     alphanumeric = re.compile(r'[^A-Z0-9]')
     kata = alphanumeric.sub('',kata)
@@ -109,26 +111,22 @@ def proses_tags(waktu,tags):
             simpan_tag(tag)
 
 
+def simpan_sentimen(id_berita,id_indikator,sentimen_isi,sentimen_kutipan):
 
-def proses_sentimen(id_berita,id_indikator,indikator,konten,kutipan):
-    """
-    id_berita : int id_berita
-    id_indikator : string id_indikator
-    indikator : string indikator
-    konten : isi artikel dari item hasil scraping
-    kutipan : kutipan tokoh hasil modeling NER
-    """
-    #lakukan klasifikasi Sentimen
-    hasil_sentimen = sentiment(id_berita,konten,kutipan,indikator)
-    #preparing insert 
     querysent = """
     insert into sentimen 
     values(%s,%s,%s,%s,%s)
+    on duplicate key update 
+    id_indikator = %s,
+    indikator= %s,
+    sentimen = %s 
     """
     #parameter sentimen isi
-    par_isi = (id_berita,id_indikator,indikator,hasil_sentimen['sentimen_isi'],'isi')
+    par_isi = (id_berita,id_indikator,indikator,sentimen_isi,'isi',
+        id_indikator,indikator,sentimen_isi)
     #parameter sentimen kutipan
-    par_kutipan = (id_berita,id_indikator,indikator,hasil_sentimen['sentimen_kutipan'],'kutipan')
+    par_kutipan = (id_berita,id_indikator,indikator,sentimen_kutipan,'kutipan',
+        id_indikator,indikator,sentimen_kutipan)
     #prepare  database connection
     database = db()
     #execute 
@@ -151,6 +149,22 @@ def proses_sentimen(id_berita,id_indikator,indikator,konten,kutipan):
         database.koneksi.rollback()
         print(ex)
     database.tutup()
+def proses_sentimen(id_berita,id_indikator,indikator,konten,kutipan):
+    """
+    id_berita : int id_berita
+    id_indikator : string id_indikator
+    indikator : string indikator
+    konten : isi artikel dari item hasil scraping
+    kutipan : kutipan tokoh hasil modeling NER
+    """
+    #lakukan klasifikasi Sentimen
+    hasil_sentimen = sentiment(id_berita,konten,kutipan,indikator)
+    #preparing for save data
+    sentimen_isi = hasil_sentimen['sentimen_isi']
+    sentimen_kutipan = hasil_sentimen['sentimen_kutipan']
+    #simpan
+    Thread.submit(simpan_sentimen,id_berita,id_indikator,indikator,sentimen_isi,sentimen_kutipan) 
+    
 def simpan_ner(ner_result,id_berita):
     query_ner = """
     INSERT INTO ner_output (id_berita,indikator,tokoh,organisasi,posisi,lokasi,kutipan) 
@@ -188,17 +202,16 @@ def proses_ner(item,id_berita):
 
         print("indikator terdeteksi ! = ",id_indikator)
         print("update indikator sum...")
-        update_indikatorsum(item,indikator,id_indikator)    
+        Thread.submit(update_indikatorsum,item,indikator,id_indikator)    
         print("simpan_ner...")
-        simpan_ner(ner_result,id_berita)
+        Thread.submit(simpan_ner,ner_result,id_berita)
         kutipan = ' '.join(kata2list(ner_result['kutipan']))
         konten = item['isi_artikel']
         print("proses_sentimen...")
         proses_sentimen(id_berita,id_indikator,indikator,konten,kutipan)
     
     return True
-
-def insert_berita(item):
+def insert_sum_sumber(waktu,sumber):
     #insert summary berita by sumber
     qsum = """
     insert into beritasum_sumber
@@ -213,6 +226,13 @@ def insert_berita(item):
     except Exception as ex:
         database.koneksi.rollback()
     database.tutup()
+
+def insert_berita(item):
+    
+    waktu = item['waktu']
+    sumber = item['sumber']
+    #insert summary waktu dan sumber
+    Thread(insert_sum_sumber,waktu,sumber)
 
     query = """INSERT INTO berita_detail (judul,waktu,tag,isi,sumber) 
         VALUES (%s, %s, %s, %s,%s)
@@ -246,14 +266,17 @@ class BeritaPipeline(object):
         if isJS(item['isi_artikel']):
             spider.dropped_count = + 1
             raise  DropItem("artikel adalah kode javaScript %s" % item)
-        #doing ner modeling
-        print('insert berita...')
+        
+
         #insert berita
         id_berita = insert_berita(item)
+        #if any duplicate items
         if id_berita==0:
             spider.dropped_count = + 1
             print("duplicate news!")
             raise  DropItem("artikel duplikat %s" % item)
+        
+        #doing ner modeling
         print('proses ner...')
         proses_ner(item,id_berita)
 
