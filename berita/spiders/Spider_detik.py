@@ -32,12 +32,12 @@ class Detik_scraper(scrapy.Spider):
 
     def parse(self,response):
       konten_selektor = 'article.list-content__item'
-      jumlah_artikel = 0
+      jumlah_berita = 0
       for konten in response.css(konten_selektor):
         link_selector = 'h3.media__title a ::attr(href)'
         url = konten.css(link_selector).extract_first()
         if (not isBerita(url)):
-          jumlah_artikel = jumlah_artikel+1
+          jumlah_berita = jumlah_berita +1
           continue
         url = url+'?single=1'
         jumlah_berita = jumlah_berita +1
