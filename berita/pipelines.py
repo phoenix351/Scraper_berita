@@ -37,7 +37,7 @@ def update_indikatorsum(item,indikator,id_indikator):
     
 
     #insert summary berita by indikator
-    qind = """
+    qsum = """
     insert into beritasum_indikator
     values(%s,%s,1)
     on duplicate key update jumlah = jumlah + 1
@@ -58,10 +58,10 @@ def update_indikatorsum(item,indikator,id_indikator):
     set jumlah = jumlah + 1 
     where id_indikator like %s    
     """
-    param = ('%'+id_indikator+'%',)
+    param1 = ('%'+id_indikator+'%',)
     database = db()
     try:
-        database.kursor.execute(qind,param)
+        database.kursor.execute(qind,param1)
         database.koneksi.commit()
     except Exception as ex:
         database.koneksi.rollback()
@@ -129,7 +129,7 @@ def proses_sentimen(id_berita,id_indikator,indikator,konten,kutipan):
     database = db()
     #execute 
     try:
-        database.kursor.execute(querysent,par)
+        database.kursor.execute(querysent,par_isi)
         database.koneksi.commit()
     #catch if any error is occurred
     except Exception as ex:
@@ -141,7 +141,7 @@ def proses_sentimen(id_berita,id_indikator,indikator,konten,kutipan):
     #prepare  database connection
     database = db()
     try:
-        database.kursor.execute(querysent,par2)
+        database.kursor.execute(querysent,par_kutipan)
         database.koneksi.commit()
     except Exception as ex:
         database.koneksi.rollback()
