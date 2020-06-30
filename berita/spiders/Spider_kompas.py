@@ -51,7 +51,7 @@ class Kompas_spider(scrapy.Spider):
         yield req
       else:
         if self.total_scraped//self.dropped_count <2:
-          kirim_notif()
+          kirim_notif(self.name)
         print("scraping ---- Selesai Total halaman = ",self.hal)
         print("jumlah berita  =",jumlah_berita,"----halaman =",self.hal)
       

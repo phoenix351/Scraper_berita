@@ -43,4 +43,4 @@ def kirim_notif(scraper):
 	session.quit()
 	print('Mail Sent')
 if __name__ == '__main__':
-	kirim_notif()
+	kirim_notif("Kompas")

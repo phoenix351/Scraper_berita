@@ -15,8 +15,8 @@ from datetime import datetime,timedelta
 import sys
 from berita.pipelines import isBerita
 from berita.items import BeritaItem
-from berita.kirim_notif import kirim_notif
-class Antara_spider(scrapy.Spider):
+from berita.kirim_notif self.nameimport kirim_notif
+self.nameclass Antara_spider(scrapy.Spider):
     #tanggal = "2020-3-19"
     name = "antara_spider"
     download_delay = 0.3
@@ -75,7 +75,7 @@ class Antara_spider(scrapy.Spider):
         yield req
       else:
         if self.total_scraped//self.dropped_count >2:
-          kirim_notif()
+          kirim_notif(self.name)
         print("scraping ---- Selesai Total halaman = ",self.hal)
         print("jumlah berita  =",jumlah_berita,"----halaman =",self.hal)
 

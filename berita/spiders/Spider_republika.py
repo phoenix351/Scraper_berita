@@ -60,7 +60,7 @@ class Republik_spider(scrapy.Spider):
       yield  req
     else:
       if self.total_scraped//self.dropped_count >2:
-          kirim_notif()
+          kirim_notif(self.name)
       sys.exit("scraping Republika - selesai")
 
 

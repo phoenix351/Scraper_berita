@@ -54,7 +54,7 @@ class Detik_scraper(scrapy.Spider):
         yield request
       else:
         if self.total_scraped//self.dropped_count <2:
-          kirim_notif()
+          kirim_notif(self.name)
       
         
     def parse_artikel(self,response):
