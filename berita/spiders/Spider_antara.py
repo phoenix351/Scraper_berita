@@ -16,7 +16,7 @@ import sys
 from berita.pipelines import isBerita
 from berita.items import BeritaItem
 from berita.kirim_notif self.nameimport kirim_notif
-self.nameclass Antara_spider(scrapy.Spider):
+class Antara_spider(scrapy.Spider):
     #tanggal = "2020-3-19"
     name = "antara_spider"
     download_delay = 0.3
