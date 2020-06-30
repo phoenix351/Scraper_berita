@@ -9,7 +9,7 @@ from scrapy.exceptions import DropItem
 from  berita import NER_processing 
 from berita.sentimen import sentiment
 import re
-import Database_connection.Database_connection as db
+from berita.Database_connection import Database_connection as db
 
 def isBerita(url):
     site_berita = re.compile(r'https\:\/\/[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+\/berita\S*\/')

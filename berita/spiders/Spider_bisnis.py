@@ -134,7 +134,7 @@ class Bisnis_spider(scrapy.Spider):
       
       # masukkan ke item pipeline
       item = BeritaItem()
-      item['waktu'] = waktu
+      item['tanggal'] = waktu
       item['sumber'] = 'Bisnis'
       item['judul'] = judul
       item['isi'] = isi
