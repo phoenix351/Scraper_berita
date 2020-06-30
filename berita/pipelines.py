@@ -234,15 +234,20 @@ def insert_berita(item):
 class BeritaPipeline(object):
     def process_item(self, item, spider):
 
+
         if len(item.get('isi_artikel'))<10:
+            spider.dropped_count = + 1
             raise  DropItem("Missing isi_artikel %s" % item)
         if isJS(item['isi_artikel']):
+            spider.dropped_count = + 1
             raise  DropItem("artikel adalah kode javaScript %s" % item)
         #doing ner modeling
         print('insert berita...')
         #insert berita
         id_berita = insert_berita(item)
         if id_berita==0:
+            spider.dropped_count = + 1
+            print("duplicate news!")
             return 0
         print('proses ner...')
         proses_ner(item,id_berita)

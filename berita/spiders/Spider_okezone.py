@@ -14,6 +14,7 @@ from re import findall
 from datetime import datetime,timedelta
 import sys
 from berita.items import BeritaItem
+from berita.kirim_notif import kirim_notif
 
 class Okezone_spider(scrapy.Spider):
     #tanggal = "2020-3-19"
@@ -23,8 +24,8 @@ class Okezone_spider(scrapy.Spider):
     costum_settings = {
       'LOG_LEVEL':'ERROR'
     }
-    
-    
+    dropped_count = 0
+    total_scrapped = 0
     hal = 0
     def __init__(self,tanggal='',*args,**kwargs):
       super(Okezone_spider, self).__init__(*args, **kwargs)
@@ -47,7 +48,7 @@ class Okezone_spider(scrapy.Spider):
         link_selector = 'a ::attr(href)'
         link = konten.css(link_selector).extract_first()+ "?page=all"
         jumlah_berita = jumlah_berita +1
-        
+        self.total_scrapped += 1        
         req = scrapy.Request(link, callback=self.parse_artikel)
         yield req
       
@@ -58,6 +59,8 @@ class Okezone_spider(scrapy.Spider):
         req = scrapy.Request(next_page, callback=self.parse)
         yield req
       else:
+        if self.total_scraped//self.dropped_count >2:
+          kirim_notif()
         print("scraping ---- Selesai Total halaman = ",self.hal)
         print("jumlah berita  =",jumlah_berita,"----halaman =",self.hal)
       

@@ -3,15 +3,15 @@ from re import findall
 from datetime import datetime,timedelta
 import sys
 from berita.items import BeritaItem
-
+from berita.kirim_notif import kirim_notif
 
 class Kompas_spider(scrapy.Spider):
     #tanggal = "2020-3-19"
     name = "kompas_spider"
     download_delay = 0.3
     tanggal=''
-    
-    
+    total_scraped = 0
+    dropped_count = 0
     hal = 1
     def __init__(self,tanggal='',*args,**kwargs):
       
@@ -35,7 +35,8 @@ class Kompas_spider(scrapy.Spider):
         #crawl on each url 
         link_selector = 'a.article__link ::attr(href)'
         link = konten.css(link_selector).extract_first()+ "?page=all"
-        jumlah_berita = jumlah_berita +1
+        self.total_scraped += 1
+        jumlah_berita = jumlah_berita + 1
         
         req = scrapy.Request(link, callback=self.parse_artikel)
         yield req
@@ -49,6 +50,8 @@ class Kompas_spider(scrapy.Spider):
         req = scrapy.Request(next_page, callback=self.parse)
         yield req
       else:
+        if self.total_scraped//self.dropped_count <2:
+          kirim_notif()
         print("scraping ---- Selesai Total halaman = ",self.hal)
         print("jumlah berita  =",jumlah_berita,"----halaman =",self.hal)
       

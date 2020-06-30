@@ -15,6 +15,7 @@ from datetime import datetime,timedelta
 import sys
 from berita.pipelines import isBerita
 from berita.items import BeritaItem
+from berita.kirim_notif import kirim_notif
 class Antara_spider(scrapy.Spider):
     #tanggal = "2020-3-19"
     name = "antara_spider"
@@ -24,7 +25,8 @@ class Antara_spider(scrapy.Spider):
       'LOG_LEVEL':'ERROR'
     }
     url_seen = []
-    
+    dropped_count = 0
+    total_scraped = 0
     hal = 0
     def __init__(self,tanggal='',*args,**kwargs):
       super(Antara_spider, self).__init__(*args, **kwargs)
@@ -48,6 +50,7 @@ class Antara_spider(scrapy.Spider):
         #crawl on each url 
         link_selector = 'a ::attr(href)'
         link = konten.css(link_selector).extract_first()
+        self.total_scraped += 1
         if (link in self.url_seen):
           sys.exit()
         if (not isBerita(link)):
@@ -71,8 +74,11 @@ class Antara_spider(scrapy.Spider):
         req = scrapy.Request(next_page, callback=self.parse)
         yield req
       else:
+        if self.total_scraped//self.dropped_count >2:
+          kirim_notif()
         print("scraping ---- Selesai Total halaman = ",self.hal)
         print("jumlah berita  =",jumlah_berita,"----halaman =",self.hal)
+
       
       
       

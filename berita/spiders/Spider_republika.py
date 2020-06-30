@@ -4,6 +4,7 @@ from datetime import datetime,timedelta
 from berita.items import BeritaItem
 import sys
 from berita.pipelines import isBerita
+from berita.kirim_notif import kirim_notif
 class Republik_spider(scrapy.Spider):
   name = "repu_spider"
   tanggal=''
@@ -12,12 +13,9 @@ class Republik_spider(scrapy.Spider):
   costum_settings = {
       'LOG_LEVEL':'DEBUG'
     }
- 
-  
-
-    
+  dropped_count = 0 
   hal = 1
-    
+  total_scrapped = 0  
   def __init__(self,tanggal='',*args,**kwargs):
     super(Republik_spider, self).__init__(*args, **kwargs)
    
@@ -41,6 +39,7 @@ class Republik_spider(scrapy.Spider):
     for baris in response.css(berita_selector):
       # crawl each url in particular page
       url = baris.getall()[0]
+      self.total_scrapped += 1
       if  (not isBerita(url)):
         jumlah_berita = jumlah_berita+1
         continue
@@ -53,13 +52,15 @@ class Republik_spider(scrapy.Spider):
     #go to next page
 
     
-    if jumlah_berita>=40:
+    if jumlah_berita>=39:
       np_sel = 'div.pagination section nav a::attr(href)'
       next_page = response.css(np_sel).getall()[-1]
       req = scrapy.Request(next_page,callback=self.parse)
       self.i = i +1
       yield  req
     else:
+      if self.total_scraped//self.dropped_count >2:
+          kirim_notif()
       sys.exit("scraping Republika - selesai")
 
 

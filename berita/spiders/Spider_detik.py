@@ -4,7 +4,7 @@ from re import findall
 from datetime import datetime,timedelta
 from re import sub
 from berita.items import BeritaItem
-
+from berita.kirim_notif import kirim_notif
 from berita.pipelines import isBerita
 import sys
 class Detik_scraper(scrapy.Spider):
@@ -13,7 +13,8 @@ class Detik_scraper(scrapy.Spider):
     tanggal = ''
     start_urls = [('https://news.detik.com/indeks?date='+tanggal)]
     hal = 1
-    
+    dropped_count = 0
+    total_scraped = 0
     def __init__(self,tanggal='',*args,**kwargs):
            
       super(Detik_scraper, self).__init__(*args, **kwargs)
@@ -36,6 +37,7 @@ class Detik_scraper(scrapy.Spider):
       for konten in response.css(konten_selektor):
         link_selector = 'h3.media__title a ::attr(href)'
         url = konten.css(link_selector).extract_first()
+        self.total_scraped += 1
         if (not isBerita(url)):
           jumlah_berita = jumlah_berita +1
           continue
@@ -50,6 +52,9 @@ class Detik_scraper(scrapy.Spider):
         next_page = 'https://news.detik.com/indeks/'+str(self.hal)+'?date='+self.tanggal
         request = scrapy.Request(url=next_page)
         yield request
+      else:
+        if self.total_scraped//self.dropped_count <2:
+          kirim_notif()
       
         
     def parse_artikel(self,response):

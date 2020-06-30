@@ -1,7 +1,7 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-def main():
+def kirim_notif(scraper):
 	mail_content = '''
 	Hello Developer, 
 	Telah terjadi Error pada Web Scraper, Silahkan Diperiksa. 
@@ -15,7 +15,7 @@ def main():
 	message = MIMEMultipart()
 	message['From'] = sender_address
 	message['To'] = receiver_address
-	message['Subject'] = 'Pemberitahuan Gangguan Web Scraper'   #The subject line
+	message['Subject'] = 'Pemberitahuan Gangguan Web Scraper : '+scraper   #The subject line
 	#The body and the attachments for the mail
 	message.attach(MIMEText(mail_content, 'plain'))
 	#Create SMTP session for sending the mail
