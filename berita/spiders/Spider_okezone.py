@@ -34,7 +34,7 @@ class Okezone_spider(scrapy.Spider):
         tanggal=datetime.strftime(tanggal,'%Y/%m/%d')
         self.tanggal=tanggal
       except:
-        kemarin = (datetime.now() - timedelta(1))
+        kemarin = (datetime.now() + timedelta(hours=7) - timedelta(1))
         self.tanggal=datetime.strftime(kemarin,'%Y/%m/%d')      
       
       self.start_urls = [('https://index.okezone.com/bydate/channel/'+self.tanggal+'/1')]

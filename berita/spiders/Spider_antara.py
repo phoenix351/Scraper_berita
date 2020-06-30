@@ -34,7 +34,7 @@ class Antara_spider(scrapy.Spider):
         tanggal = datetime.strptime(tanggal,"%Y-%m-%d")
         self.tanggal=datetime.strftime(tanggal,'%d-%m-%Y')
       except:
-        kemarin = (datetime.now() - timedelta(1))
+        kemarin = (datetime.now()+timedelta(hours=7) - timedelta(1))
         self.tanggal=datetime.strftime(kemarin,'%d-%m-%Y')      
       
       self.start_urls = [(

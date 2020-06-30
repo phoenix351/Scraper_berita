@@ -24,7 +24,7 @@ class Republik_spider(scrapy.Spider):
       tanggal = tanggal.strftime(tanggal,"%Y/%m/%d")
       self.tanggal = tanggal      
     except:
-      tanggal = datetime.now()-timedelta(1)
+      tanggal = datetime.now() + timedelta(hours=7) - timedelta(1)
       self.tanggal=tanggal.strftime("%Y/%m/%d")      
     
     self.start_urls = [('https://republika.co.id/index/'+self.tanggal)]

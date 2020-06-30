@@ -23,7 +23,7 @@ class Detik_scraper(scrapy.Spider):
         t = datetime.strptime(tanggal,'%Y-%m-%d')
         self.tanggal = t.strftime("%m/%d/%Y")
       except:
-        kemarin = datetime.now()-timedelta(1)
+        kemarin = datetime.now() +timedelta(hours=7) - timedelta(1)
         kemarin_string = kemarin.strftime("%m/%d/%Y")
         self.tanggal= kemarin_string
 
