@@ -15,7 +15,7 @@ from datetime import datetime,timedelta
 import sys
 from berita.pipelines import isBerita
 from berita.items import BeritaItem
-from berita.kirim_notif self.nameimport kirim_notif
+from berita.kirim_notif import kirim_notif
 class Antara_spider(scrapy.Spider):
     #tanggal = "2020-3-19"
     name = "antara_spider"
