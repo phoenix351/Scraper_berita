@@ -137,6 +137,6 @@ class Bisnis_spider(scrapy.Spider):
       item['tanggal'] = waktu
       item['sumber'] = 'Bisnis'
       item['judul'] = judul
-      item['isi'] = isi
+      item['isi_artikel'] = isi
       item['tag']=tag
       yield item
