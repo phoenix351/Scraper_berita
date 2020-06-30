@@ -13,7 +13,7 @@ import scrapy
 from re import findall 
 from datetime import datetime,timedelta
 import sys
-
+from berita.items import BeritaItem
 
 class Okezone_spider(scrapy.Spider):
     #tanggal = "2020-3-19"

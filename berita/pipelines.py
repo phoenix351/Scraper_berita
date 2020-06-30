@@ -167,7 +167,7 @@ def simpan_ner(ner_result,id_berita):
     """ 
     parameter = (
         id_berita,
-        ner_result[3]
+        ner_result[3],
         ner_result[0],
         ner_result[1],
         ner_result[2],
@@ -204,28 +204,26 @@ def insert_berita(item):
     query = """INSERT INTO berita (judul,waktu,tag,isi,sumber) 
         VALUES (%s, %s, %s, %s,%s,%s,%s)
         """
-        params = (
-            item['judul'],
-            item['tanggal'],
-            item['tag'],
-            item['isi_artikel'],
-            item['sumber'],
+    params = (
+        item['judul'],
+        item['tanggal'],
+        item['tag'],
+        item['isi_artikel'],
+        item['sumber'],
         )
-
-        # debug
-        database = db()
-        try:
-            database.kursor.execute(query, params)
-            database.koneksi.commit()
-            print(database.kursor.rowcount, "berita berhasil di simpan!")
-            id_generated = database.kursor.lastrowid
-        except Exception as ex:
-            database.koneksi.rollback()
-            print(ex)
-            return 0
-        
-        database.tutup()
-        return id_generated
+    # debug
+    database = db()
+    try:
+        database.kursor.execute(query, params)
+        database.koneksi.commit()
+        print(database.kursor.rowcount, "berita berhasil di simpan!")
+        id_generated = database.kursor.lastrowid
+    except Exception as ex:
+        database.koneksi.rollback()
+        print(ex)
+        return 0
+    database.tutup()
+    return id_generated
 class BeritaPipeline(object):
     def process_item(self, item, spider):
 
@@ -235,15 +233,11 @@ class BeritaPipeline(object):
             raise  DropItem("artikel adalah kode javaScript %s" % item)
         #doing ner modeling
         print('insert berita...')
+        #insert berita
         id_berita = insert_berita(item)
         if id_berita==0:
             return 0
         print('proses ner...')
         kelas = proses_ner(item,id_berita)
-
-
-        #insert berita
-        
-        
 
         return item
