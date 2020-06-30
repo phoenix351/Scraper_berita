@@ -127,7 +127,7 @@ class Okezone_spider(scrapy.Spider):
       
       # masukkan ke item pipeline
       item = BeritaItem()
-      item['tanggal'] = waktu
+      item['waktu'] = waktu
       item['sumber'] = 'Okezone'
       item['judul'] = judul
       item['isi_artikel'] = isi

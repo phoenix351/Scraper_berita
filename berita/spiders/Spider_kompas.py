@@ -92,7 +92,7 @@ class Kompas_spider(scrapy.Spider):
       
       # masukkan ke item pipeline
       item = BeritaItem()
-      item['tanggal'] = waktu_ob
+      item['waktu'] = waktu_ob
       item['judul'] = judul
       item['isi_artikel'] = isi
       item['tag']=tag
