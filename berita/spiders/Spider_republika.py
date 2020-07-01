@@ -59,12 +59,12 @@ class Republik_spider(scrapy.Spider):
       self.i = i +1
       yield  req
     else:
-      try :
-          rasio = self.total_scraped//self.dropped_count
-          if rasio < 2:
-            kirim_notif(self.name)
-        except:
+      try:
+        rasio = self.total_scraped//self.dropped_count
+        if rasio < 2:
           kirim_notif(self.name)
+      except:
+        kirim_notif(self.name)
       sys.exit("scraping Republika - selesai")
 
 
