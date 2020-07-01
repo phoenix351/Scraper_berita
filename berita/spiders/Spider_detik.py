@@ -5,7 +5,7 @@ from datetime import datetime,timedelta
 from re import sub
 from berita.items import BeritaItem
 from berita.kirim_notif import kirim_notif
-from berita.fungsi import isBerita
+from berita.NER_processing import isBerita
 import sys
 class Detik_scraper(scrapy.Spider):
     name = "detik_spider"

@@ -13,7 +13,7 @@ import scrapy
 from re import findall 
 from datetime import datetime,timedelta
 import sys
-from berita.fungsi import isBerita
+from berita.NER_processing import isBerita
 from berita.items import BeritaItem
 from berita.kirim_notif import kirim_notif
 class Antara_spider(scrapy.Spider):

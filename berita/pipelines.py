@@ -13,9 +13,9 @@ import re
 from berita.Database_connection import Database_connection as db
 import ast
 from concurrent.futures import ThreadPoolExecutor
-from berita.fungsi import justAlphaNum
-from berita.fungsi import get_listkatakunci
-from berita.fungsi import isJS
+from berita.NER_processing import justAlphaNum
+from berita.NER_processing import get_listkatakunci
+from berita.NER_processing import isJS
 
 Thread = ThreadPoolExecutor(max_workers=7)
 
