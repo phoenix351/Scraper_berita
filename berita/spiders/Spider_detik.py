@@ -53,7 +53,11 @@ class Detik_scraper(scrapy.Spider):
         request = scrapy.Request(url=next_page)
         yield request
       else:
-        if self.total_scraped//self.dropped_count <2:
+        try :
+          rasio = self.total_scraped//self.dropped_count
+          if rasio < 2:
+            kirim_notif(self.name)
+        except:
           kirim_notif(self.name)
       
         

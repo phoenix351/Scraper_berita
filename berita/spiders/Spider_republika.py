@@ -20,12 +20,12 @@ class Republik_spider(scrapy.Spider):
     super(Republik_spider, self).__init__(*args, **kwargs)
    
     try:
-      tanggal = datetime.strptime(tanggal,'%Y-%m-%d')
-      tanggal = tanggal.strftime(tanggal,"%Y/%m/%d")
+      tanggal = datetime.strptime(tanggal,r'%Y-%m-%d')
+      tanggal = tanggal.strftime(tanggal,r"%Y/%m/%d")
       self.tanggal = tanggal      
     except:
       tanggal = datetime.now() + timedelta(hours=7) - timedelta(1)
-      self.tanggal=tanggal.strftime("%Y/%m/%d")      
+      self.tanggal=tanggal.strftime(r"%Y/%m/%d")      
     
     self.start_urls = [('https://republika.co.id/index/'+self.tanggal)]
     
@@ -59,7 +59,11 @@ class Republik_spider(scrapy.Spider):
       self.i = i +1
       yield  req
     else:
-      if self.total_scraped//self.dropped_count >2:
+      try :
+          rasio = self.total_scraped//self.dropped_count
+          if rasio < 2:
+            kirim_notif(self.name)
+        except:
           kirim_notif(self.name)
       sys.exit("scraping Republika - selesai")
 

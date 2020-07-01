@@ -50,7 +50,11 @@ class Kompas_spider(scrapy.Spider):
         req = scrapy.Request(next_page, callback=self.parse)
         yield req
       else:
-        if self.total_scraped//self.dropped_count <2:
+        try :
+          rasio = self.total_scraped//self.dropped_count
+          if rasio < 2:
+            kirim_notif(self.name)
+        except:
           kirim_notif(self.name)
         print("scraping ---- Selesai Total halaman = ",self.hal)
         print("jumlah berita  =",jumlah_berita,"----halaman =",self.hal)
