@@ -2,7 +2,8 @@ import time
 import subprocess
 from datetime import datetime,timedelta
 import os
-os.chdir("../")
+path_file = os.dirname(os.path.abspath(__file__))
+os.chdir(path_file+"/../")
 
 def skrep(tanggal):
   #tanggal_ = tanggal.replace("/","-")
@@ -17,10 +18,10 @@ def skrep(tanggal):
   i = 0
   for nama in nama_py:
     nama_log = log_list[i]+tanggal+".log"
-    bash = "scrapy runspider "+nama_py+" -a tanggal="+tanggal+" > "+nama_log
+    bash = "scrapy runspider "+nama+" -a tanggal="+tanggal+" > "+nama_log
     bash_list.append(bash)
     try:
-      subprocess.check_output(bsh, shell=True)
+      subprocess.check_output(bash, shell=True)
     except subprocess.CalledProcessError as e:
       output = e.output
   return output
@@ -33,8 +34,8 @@ def buatlist_tanggal(dari):
   return date_list
 def main():
   list_batch = buatlist_tanggal('08-06-2020')  
-  print(list_batch)
-  for t in list_2020:
+  
+  for t in list_batch:
     print('sekarang scraping tanggal =',t)
     skrep(t)
 if __name__ == '__main__':
