@@ -1,5 +1,5 @@
 import re
-from berita.Database_connection import Database_connection
+
 def justAlphaNumSpace(kata):
 	alphanumeric = re.compile(r'[^a-zA-Z0-9]')
 	space = re.compile(r'\s+')
@@ -7,6 +7,7 @@ def justAlphaNumSpace(kata):
 	kata = alphanumeric.sub('',kata)
 	return kata
 def set_listkatakunci():
+
   database = Database_connection()
   query = '''select k.id_indikator, k.katakunci, r.indikator 
   from katakunci_indikator k, indikator_ref r 
@@ -27,8 +28,9 @@ def set_listkatakunci():
     print(ex)
   database.tutup()
   return list_katakunci
-list_katakunci = set_listkatakunci()
+
 def get_listkatakunci():
+	list_katakunci = set_listkatakunci()
 	return list_katakunci
 def isBerita(url):
     site_berita = re.compile(r'https\:\/\/[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+\/berita\S*\/')
