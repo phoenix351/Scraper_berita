@@ -7,7 +7,7 @@ from concurrent.futures import ProcessPoolExecutor
 from berita.Database_connection import Database_connection
 
 
-def justAlphaNumSpace(kata):
+def justAlphaNum(kata):
   alphanumeric = re.compile(r'[^a-zA-Z0-9]')
   space = re.compile(r'\s+')
   kata = space.sub(' ',kata).strip()
