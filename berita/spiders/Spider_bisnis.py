@@ -126,13 +126,7 @@ class Bisnis_spider(scrapy.Spider):
         waktu = waktu.replace(bulan,beda[bulan])
       except:
         waktu = datetime.strptime(self.tanggal,r'%d+%B+%Y')
-
-      try:
         
-      except:
-        #print('already same')
-        pass
-      
       waktu = datetime.strptime(waktu,'%d %B %Y')
       # masukkan ke item pipeline
       item = BeritaItem()

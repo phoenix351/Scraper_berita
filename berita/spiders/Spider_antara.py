@@ -118,8 +118,6 @@ class Antara_spider(scrapy.Spider):
         
       isi = ' '.join(isi_fix)
 
-      
-
       beda = {
         'Januari':'January',
         'Februari':'February',
