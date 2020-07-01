@@ -24,7 +24,7 @@ def skrep(tanggal):
       subprocess.check_output(bash, shell=True)
     except subprocess.CalledProcessError as e:
       output = e.output
-  return output
+  
 
 def buatlist_tanggal(dari):
   base = datetime.strptime(dari,'%d-%m-%Y')
@@ -33,9 +33,10 @@ def buatlist_tanggal(dari):
   date_list = [datetime.strftime((end - timedelta(days=x)),'%Y-%m-%d') for x in range(numdays)]
   return date_list
 def main():
-  list_batch = buatlist_tanggal('08-06-2020')  
+  list_batch = buatlist_tanggal('08-06-2020')[1:]  
   
   for t in list_batch:
+
     print('sekarang scraping tanggal =',t)
     skrep(t)
 if __name__ == '__main__':
