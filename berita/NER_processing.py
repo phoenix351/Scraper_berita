@@ -8,7 +8,7 @@ from berita.Database_connection import Database_connection
 
 
 def justAlphaNum(kata):
-  alphanumeric = re.compile(r'[^a-zA-Z0-9]')
+  alphanumeric = re.compile(r'[^a-zA-Z0-9\s]')
   space = re.compile(r'\s+')
   kata = space.sub(' ',kata).strip()
   kata = alphanumeric.sub('',kata)
