@@ -326,7 +326,7 @@ class BeritaPipeline(object):
         print('proses ner...')
         proses_ner(item,id_berita)
 
-        tag_warn = [f.result() for f in tagf]
+        tag_warn = [f for f in tagf.result()]
         tag_warn.append(sumsumber.result())
         for f in tag_warn:
             print(f)
