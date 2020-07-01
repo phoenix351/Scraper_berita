@@ -66,7 +66,7 @@ def simpan_tag(waktu,tag):
     waktu : string dengan format %Y-%m-%d atau python datetime.datetime
     """
     query = """
-    insert into sum_tags
+    insert into sum_tags (waktu, tag, jumlah)
     values(%s,%s,1)
     on duplicate key update jumlah = jumlah + 1
     """
@@ -77,7 +77,7 @@ def simpan_tag(waktu,tag):
         database.koneksi.commit()
     except Exception as ex:
         database.koneksi.rollback()
-        print(ex)
+        return ex
     database.tutup()
 def proses_tags(waktu,tags):
     """
@@ -87,6 +87,7 @@ def proses_tags(waktu,tags):
     non_alphanumeric = re.compile(r'[^a-zA-Z0-9\s]')
     space = re.compile(r'\s+')
     tags = kata2list(tags)
+    ft = []
     for tag in tags:
         #remove non alphanumeric
         tag = non_alphanumeric.sub('',tag)
@@ -95,7 +96,11 @@ def proses_tags(waktu,tags):
         #cek valid tag jika lebih dari 3
         if len(tag) > 3:
             #simpan pada sum tag table
-            Thread.submit(simpan_tag,tag)
+            f = Thread.submit(simpan_tag,tag)
+            ft.append(f)
+    ft = [f.result() for f in ft]
+    return ft
+
 
 
 def simpan_sentimen(id_berita,id_indikator,sentimen_isi,sentimen_kutipan):
@@ -247,8 +252,8 @@ def proses_ner(item,id_berita):
 def insert_sum_sumber(waktu,sumber):
     #insert summary berita by sumber
     qsum = """
-    insert into beritasum_sumber
-    values(%s,%s,1)
+    insert into beritasum_sumber (waktu, sumber, jumlah)
+    values (%s,%s,1)
     on duplicate key update jumlah = jumlah + 1 
     """
     param = (item['waktu'],item['sumber'])
@@ -258,14 +263,12 @@ def insert_sum_sumber(waktu,sumber):
         database.koneksi.commit()
     except Exception as ex:
         database.koneksi.rollback()
+        return ex
     database.tutup()
 
 def simpan_berita(item):
     
-    waktu = item['waktu']
-    sumber = item['sumber']
-    #insert summary waktu dan sumber
-    Thread.submit(insert_sum_sumber,waktu,sumber)
+    
 
     query = """INSERT INTO berita_detail (judul,waktu,tag,isi,sumber) 
         VALUES (%s, %s, %s, %s,%s)
@@ -302,7 +305,7 @@ class BeritaPipeline(object):
         
 
         #insert berita
-        Process.submit(proses_tags,item['waktu'],item['tag'])
+        
         id_berita = simpan_berita(item)
 
         #if any duplicate items
@@ -311,8 +314,20 @@ class BeritaPipeline(object):
             print("duplicate news!")
             raise  DropItem("artikel duplikat %s" % item)
         
-        #doing ner modeling
+        #insert sum tag
+        tagf = Process.submit(proses_tags,item['waktu'],item['tag'])
+        
+        #insert summary waktu dan sumber
+        waktu = item['waktu']
+        sumber = item['sumber']
+        sumsumber = Thread.submit(insert_sum_sumber,waktu,sumber)
+
+        #ner proses
         print('proses ner...')
         proses_ner(item,id_berita)
 
+        tag_warn = [f.result() for f in tagf]
+        tag_warn.append(sumsumber.result())
+        for f in tag_warn:
+            print(f)
         return item
