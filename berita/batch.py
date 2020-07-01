@@ -33,7 +33,7 @@ def buatlist_tanggal(dari):
   date_list = [datetime.strftime((end - timedelta(days=x)),'%Y-%m-%d') for x in range(numdays)]
   return date_list
 def main():
-  list_batch = buatlist_tanggal('08-06-2020')[1:]  
+  list_batch = buatlist_tanggal('08-06-2020')  
   
   for t in list_batch:
 
