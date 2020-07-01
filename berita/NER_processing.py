@@ -47,8 +47,10 @@ def kata_Indikator(kata):
   return 0
 
 
-def ner_fun(konten,tipe):
+def ner_fun(konten,tipe=0):
   os.chdir(path_file+'/../ner_model')
+  semua =  spacy.load('All')
+  """
   per = spacy.load('Person')
   pos = spacy.load('Position')
   org = spacy.load('Organization')
@@ -63,12 +65,22 @@ def ner_fun(konten,tipe):
   'indikator':ind,
   'kutipan':qot}
   fungsi = maping[tipe]
-  hasil = fungsi(konten)
+  """
+  hasil = semua(konten)
   return hasil
 def ner_modeling(konten,id_berita):
 
 
-  doc5 = ner_fun(konten,'indikator')
+  #doc5 = ner_fun(konten,'indikator')
+  semua = ner_fun(konten)
+  doc5 = semua
+  ner_tokoh = semua
+  ner_posisi = semua
+  ner_organisasi = semua
+  ner_lokasi = semua
+  ner_kutipan = semua
+
+
   indicator = list(set([(e.text) for e in doc5.ents if e.label_ == 'indicator']))
   list_indikator = []
   for ind in indicator:
@@ -79,27 +91,31 @@ def ner_modeling(konten,id_berita):
   if len(list_indikator)>=1:
 
     with ProcessPoolExecutor(max_workers=2) as ex:
+      pass
+      #semua = ex.submit()
+      """
       ner_tokoh = ex.submit(ner_fun,konten,'tokoh')
       ner_posisi = ex.submit(ner_fun,konten,'posisi')
       ner_organisasi = ex.submit(ner_fun,konten,'organisasi')
       ner_lokasi = ex.submit(ner_fun,konten,'lokasi')
       ner_kutipan = ex.submit(ner_fun,konten,'kutipan')
+      """
     
   
     # mengambil teks hasil prediksi dari label
-    ner_tokoh = ner_tokoh.result()
+    #ner_tokoh = ner_tokoh.result()
     tokoh = list(set([(e.text) for e in ner_tokoh.ents if e.label_ == 'person']))
 
-    ner_posisi = ner_posisi.result()
+    #ner_posisi = ner_posisi.result()
     posisi = list(set([(e.text) for e in ner_posisi.ents if e.label_ == 'position']))
 
-    ner_organisasi = ner_organisasi.result()
+    #ner_organisasi = ner_organisasi.result()
     organisasi = list(set([(e.text) for e in ner_organisasi.ents if e.label_ == 'organization']))
 
-    ner_lokasi = ner_lokasi.result()
+    #ner_lokasi = ner_lokasi.result()
     lokasi = list(set([(e.text) for e in ner_lokasi.ents if e.label_ == 'location']))
     
-    ner_kutipan = ner_kutipan.result()
+    #ner_kutipan = ner_kutipan.result()
     kutipan = list(set([(e.text) for e in ner_kutipan.ents if e.label_ == 'quote']))
   else:
     tokoh = []

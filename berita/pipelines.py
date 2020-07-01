@@ -222,11 +222,11 @@ def proses_ner(item,id_berita):
         id_indikator = row['id_indikator']
         id_indikator = justAlphaNum(id_indikator)
         indikator = row['indikator']
-        indikator = justAlphaNum(indikator)
+        indikator = indikator
         if len(id_indikator) < 3:
             continue
 
-        print("indikator terdeteksi ! = ",id_indikator)
+        print("indikator terdeteksi ! = ",indikator)
         print("update indikator sum...")
         Thread.submit(update_indikatorsum,item,indikator,id_indikator)    
         print("simpan_ner...")
