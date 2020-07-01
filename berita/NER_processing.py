@@ -9,7 +9,7 @@ import numpy as np
 import ast
 from concurrent.futures import ProcessPoolExecutor
 from berita.Database_connection import Database_connection
-
+from berita.pipelines import justAlphaNum
 def get_listkatakunci():
   database = Database_connection()
   query = '''select k.id_indikator, k.katakunci, r.indikator 
@@ -47,27 +47,12 @@ def kata_Indikator(kata):
   return 0
 
 
-def ner_fun(konten,tipe=0):
+def ner_fun(konten):
   os.chdir(path_file+'/../ner_model')
   semua =  spacy.load('All')
-  """
-  per = spacy.load('Person')
-  pos = spacy.load('Position')
-  org = spacy.load('Organization')
-  loc = spacy.load('Location')
-  ind = spacy.load('Indicator')
-  qot = spacy.load('Quote')
-  maping = {
-  'tokoh':per,
-  'posisi':pos,
-  'organisasi':org,
-  'lokasi':loc,
-  'indikator':ind,
-  'kutipan':qot}
-  fungsi = maping[tipe]
-  """
   hasil = semua(konten)
   return hasil
+
 def ner_modeling(konten,id_berita):
 
 
@@ -90,33 +75,22 @@ def ner_modeling(konten,id_berita):
 
   if len(list_indikator)>=1:
 
-    with ProcessPoolExecutor(max_workers=2) as ex:
-      pass
-      #semua = ex.submit()
-      """
-      ner_tokoh = ex.submit(ner_fun,konten,'tokoh')
-      ner_posisi = ex.submit(ner_fun,konten,'posisi')
-      ner_organisasi = ex.submit(ner_fun,konten,'organisasi')
-      ner_lokasi = ex.submit(ner_fun,konten,'lokasi')
-      ner_kutipan = ex.submit(ner_fun,konten,'kutipan')
-      """
-    
   
     # mengambil teks hasil prediksi dari label
     #ner_tokoh = ner_tokoh.result()
-    tokoh = list(set([(e.text) for e in ner_tokoh.ents if e.label_ == 'person']))
+    tokoh = [justAlphaNum(e) for e in list(set([(e.text) for e in ner_tokoh.ents if e.label_ == 'person']))]
 
     #ner_posisi = ner_posisi.result()
-    posisi = list(set([(e.text) for e in ner_posisi.ents if e.label_ == 'position']))
+    posisi = [justAlphaNum(e) for e in list(set([(e.text) for e in ner_posisi.ents if e.label_ == 'position']))]
 
     #ner_organisasi = ner_organisasi.result()
-    organisasi = list(set([(e.text) for e in ner_organisasi.ents if e.label_ == 'organization']))
+    organisasi = [justAlphaNum(e) for e in list(set([(e.text) for e in ner_organisasi.ents if e.label_ == 'organization']))]
 
     #ner_lokasi = ner_lokasi.result()
-    lokasi = list(set([(e.text) for e in ner_lokasi.ents if e.label_ == 'location']))
+    lokasi = [justAlphaNum(e) for e in list(set([(e.text) for e in ner_lokasi.ents if e.label_ == 'location']))]
     
     #ner_kutipan = ner_kutipan.result()
-    kutipan = list(set([(e.text) for e in ner_kutipan.ents if e.label_ == 'quote']))
+    kutipan = [justAlphaNum(e) for e in list(set([(e.text) for e in ner_kutipan.ents if e.label_ == 'quote']))]
   else:
     tokoh = []
     posisi = []

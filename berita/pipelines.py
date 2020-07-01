@@ -15,7 +15,9 @@ import ast
 from concurrent.futures import ThreadPoolExecutor
 Thread = ThreadPoolExecutor(max_workers=7)
 def justAlphaNum(kata):
-    alphanumeric = re.compile(r'[^A-Z0-9]')
+    alphanumeric = re.compile(r'[^a-zA-Z0-9]')
+    space = re.compile(r'\s+')
+    kata = space.sub(' ',kata).strip()
     kata = alphanumeric.sub('',kata)
     return kata
 def isBerita(url):
