@@ -127,12 +127,12 @@ def ner_modeling(konten,id_berita):
   # memasukkkan hasil prediksi kedalam list
   
   ner_dict = {
-    'tokoh':str(tokoh),
-    'posisi':str(posisi),
-    'organisasi':str(organisasi),
-    'lokasi':str(lokasi),
+    'tokoh':tokoh,
+    'posisi':posisi,
+    'organisasi':organisasi,
+    'lokasi':lokasi,
     'indikator':list_indikator,
-    'kutipan':str(kutipan)
+    'kutipan':kutipan
   }
   
   return ner_dict

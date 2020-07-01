@@ -191,7 +191,7 @@ def simpan_ner(ner_result,id_berita):
 def simpan_sumner(ner_result,indikator):
     query = '''insert into sum_ner
     values (%s,%s,%s,1)
-    on duplicate key jumlah = jumlah +1
+    on duplicate key update jumlah = jumlah +1
     '''
     full_param = []
     tokoh = [(t,indikator,'tokoh') for t in ner_result['tokoh']]
