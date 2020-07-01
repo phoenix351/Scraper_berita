@@ -96,7 +96,7 @@ def proses_tags(waktu,tags):
         #cek valid tag jika lebih dari 3
         if len(tag) > 3:
             #simpan pada sum tag table
-            f = Thread.submit(simpan_tag,tag)
+            f = Thread.submit(simpan_tag,waktu,tag)
             ft.append(f)
     ft = [f.result() for f in ft]
     return ft
