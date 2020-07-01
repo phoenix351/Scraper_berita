@@ -103,7 +103,7 @@ class Bisnis_spider(scrapy.Spider):
         
       isi = ' '.join(isi_fix)
 
-      waktu = ''.join(findall('\d{2}\s+[a-zA-Z]+\s+\d{4}',waktu))
+      
 
       beda = {
         'Januari':'January',
@@ -116,17 +116,19 @@ class Bisnis_spider(scrapy.Spider):
         'Oktober':'October',
         'Desember':'December'
       }
-      bulan = ''.join(findall('[a-zA-Z]+',waktu))
-      
+      try:
+        waktu = ''.join(findall('\d{2}\s+[a-zA-Z]+\s+\d{4}',waktu))
+        bulan = ''.join(findall('[a-zA-Z]+',waktu))
+      except:
+        waktu = self.tanggal.strptime(r'%d+%B+%Y')
+
       try:
         waktu = waktu.replace(bulan,beda[bulan])
       except:
-        print('already same')
+        #print('already same')
+        pass
       
       waktu = datetime.strptime(waktu,'%d %B %Y')
-
-
-      
       # masukkan ke item pipeline
       item = BeritaItem()
       item['waktu'] = waktu
