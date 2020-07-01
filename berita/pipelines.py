@@ -189,18 +189,18 @@ def simpan_ner(ner_result,id_berita):
         print(ex)
     database.tutup()
 def simpan_sumner(ner_result,indikator):
-    query = '''insert into sum_ner
-    values (%s,%s,%s,1)
+    query = '''insert into sum_ner (entitas,indikator,jenis_entitas,jumlah)
+    values (%s,%s,%s,%s)
     on duplicate key update jumlah = jumlah +1
     '''
     full_param = []
-    tokoh = [(t,indikator,'tokoh') for t in ner_result['tokoh']]
+    tokoh = [(t,indikator,'tokoh',1) for t in ner_result['tokoh'] if len(t)>3]
     full_param.extend(tokoh)
-    posisi = [(t,indikator,'posisi') for t in ner_result['posisi']]
+    posisi = [(t,indikator,'posisi',1) for t in ner_result['posisi'] if len(t)>3]
     full_param.extend(posisi)
-    organisasi = [(t,indikator,'organisasi') for t in ner_result['organisasi']]
+    organisasi = [(t,indikator,'organisasi',1) for t in ner_result['organisasi'] if len(t)>3]
     full_param.extend(organisasi)
-    lokasi = [(t,indikator,'lokasi') for t in ner_result['lokasi']]
+    lokasi = [(t,indikator,'lokasi',1) for t in ner_result['lokasi'] if len(t)>3]
     full_param.extend(lokasi)
 
     database = Database_connection()
@@ -232,11 +232,13 @@ def proses_ner(item,id_berita):
         print("simpan_ner...")
         Thread.submit(simpan_ner,ner_result,id_berita)
         print("simpan summary ner ...")
-        Thread.submit(simpan_sumner,ner_result,indikator)
+        simpan = Thread.submit(simpan_sumner,ner_result,indikator)
         kutipan = ' '.join(ner_result['kutipan'])
         konten = item['isi_artikel']
         print("proses_sentimen...")
         proses_sentimen(id_berita,id_indikator,indikator,konten,kutipan)
+        if(simpan.result()!=True):
+            print("error with sumner nih")
     
     return True
 def insert_sum_sumber(waktu,sumber):
