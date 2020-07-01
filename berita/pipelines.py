@@ -12,12 +12,13 @@ from berita.sentimen import sentiment
 import re
 from berita.Database_connection import Database_connection
 import ast
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor,ProcessPoolExecutor
 from berita.NER_processing import justAlphaNum
 from berita.NER_processing import get_listkatakunci
 from berita.NER_processing import isJS
 
-Thread = ThreadPoolExecutor(max_workers=7)
+Thread = ThreadPoolExecutor(max_workers=20)
+Process = ProcessPoolExecutor(max_workers=2)
 
 
 def update_indikatorsum(item,indikator,id_indikator):
@@ -90,7 +91,7 @@ def proses_tags(waktu,tags):
         #remove non alphanumeric
         tag = non_alphanumeric.sub('',tag)
         #remove unnecesry space / tab
-        tag = space.sub(' ',tag)
+        tag = space.sub(' ',tag).strip()
         #cek valid tag jika lebih dari 3
         if len(tag) > 3:
             #simpan pada sum tag table
@@ -174,22 +175,13 @@ def simpan_ner(ner_result,id_berita):
         database.koneksi.rollback()
         print(ex)
     database.tutup()
-def simpan_sumner(ner_result,indikator):
+def insert_sumner(entitas,indikator,jenis_entitas,jumlah=1):
     query = '''insert into sum_ner (entitas,indikator,jenis_entitas,jumlah)
     values (%s,%s,%s,%s)
     on duplicate key update jumlah = jumlah +1
     '''
-    full_param = []
-    tokoh = [(t,indikator,'tokoh',1) for t in ner_result['tokoh'] if len(t)>3]
-    full_param.extend(tokoh)
-    posisi = [(t,indikator,'posisi',1) for t in ner_result['posisi'] if len(t)>3]
-    full_param.extend(posisi)
-    organisasi = [(t,indikator,'organisasi',1) for t in ner_result['organisasi'] if len(t)>3]
-    full_param.extend(organisasi)
-    lokasi = [(t,indikator,'lokasi',1) for t in ner_result['lokasi'] if len(t)>3]
-    full_param.extend(lokasi)
-
     database = Database_connection()
+
     try:
         database.kursor.executemany(query,full_param)
         database.koneksi.commit()
@@ -198,6 +190,27 @@ def simpan_sumner(ner_result,indikator):
         print(ex)
         return False
     return True
+
+def simpan_sumner(ner_result,indikator):
+    
+    full_param = []
+    tokoh = [(t,indikator,'tokoh') for t in ner_result['tokoh'] if len(t)>3]
+    full_param.extend(tokoh)
+    posisi = [(t,indikator,'posisi') for t in ner_result['posisi'] if len(t)>3]
+    full_param.extend(posisi)
+    organisasi = [(t,indikator,'organisasi') for t in ner_result['organisasi'] if len(t)>3]
+    full_param.extend(organisasi)
+    lokasi = [(t,indikator,'lokasi') for t in ner_result['lokasi'] if len(t)>3]
+    full_param.extend(lokasi)
+    for param in full_param:
+        entitas = param[0]
+        indikator = param[1]
+        jenis_entitas = param[2]
+        Thread.submit(insert_sumner,entitas,indikator,jenis_entitas)
+
+
+
+    
 
 def proses_ner(item,id_berita):
     ner_result = ner_modeling(item['isi_artikel'],id_berita)
@@ -212,17 +225,17 @@ def proses_ner(item,id_berita):
         if len(id_indikator) < 3:
             continue
 
-        print("indikator terdeteksi ! = ",indikator)
+        print("indikator terdeteksi = ",indikator)
         print("update indikator sum...")
         Thread.submit(update_indikatorsum,item,indikator,id_indikator)    
         print("simpan_ner...")
         Thread.submit(simpan_ner,ner_result,id_berita)
         print("simpan summary ner ...")
-        simpan = Thread.submit(simpan_sumner,ner_result,indikator)
+        simpan = Process.submit(simpan_sumner,ner_result,indikator)
         kutipan = ' '.join(ner_result['kutipan'])
         konten = item['isi_artikel']
         print("proses_sentimen...")
-        proses_sentimen(id_berita,id_indikator,indikator,konten,kutipan)
+        Process.submit(proses_sentimen,id_berita,id_indikator,indikator,konten,kutipan)
         if(simpan.result()!=True):
             print("error with sumner nih")
     
@@ -285,7 +298,7 @@ class BeritaPipeline(object):
         
 
         #insert berita
-        proses_tags(item['waktu'],item['tag'])
+        Process.submit(proses_tags,item['waktu'],item['tag'])
         id_berita = simpan_berita(item)
 
         #if any duplicate items
