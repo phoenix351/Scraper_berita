@@ -18,12 +18,11 @@ class Kompas_spider(scrapy.Spider):
       super(Kompas_spider, self).__init__(*args, **kwargs)
       
       try:
-        self.tanggal=datetime.strftime((datetime.now() + timedelta(hours=7) -timedelta(1)),'%Y-%m-%d')
-      except:
-        self.tanggal=datetime.strptime(tanggal,'%d-%m-%Y')
+        self.tanggal=datetime.strptime(tanggal,'%Y-%m-%d')
         self.tanggal = datetime.strftime(self.tanggal,'%Y-%m-%d')
-
-      
+        
+      except:
+        self.tanggal=datetime.strftime((datetime.now() + timedelta(hours=7) -timedelta(1)),'%Y-%m-%d')      
       
       self.start_urls = [('https://indeks.kompas.com/?site=news&date='+self.tanggal)]
 
