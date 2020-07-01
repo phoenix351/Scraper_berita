@@ -2,7 +2,7 @@ import time
 import subprocess
 from datetime import datetime,timedelta
 import os
-path_file = os.dirname(os.path.abspath(__file__))
+path_file = os.path.dirname(os.path.abspath(__file__))
 os.chdir(path_file+"/../")
 
 def skrep(tanggal):
