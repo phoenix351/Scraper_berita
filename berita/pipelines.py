@@ -187,8 +187,7 @@ def insert_sumner(entitas,indikator,jenis_entitas,jumlah=1):
         database.koneksi.commit()
     except Exception as ex:
         database.koneksi.rollback()
-        print(ex)
-        return False
+        return str(ex)
     return True
 
 def simpan_sumner(ner_result,indikator):
@@ -202,11 +201,15 @@ def simpan_sumner(ner_result,indikator):
     full_param.extend(organisasi)
     lokasi = [(t,indikator,'lokasi') for t in ner_result['lokasi'] if len(t)>3]
     full_param.extend(lokasi)
+    fl =[]
     for param in full_param:
         entitas = param[0]
         indikator = param[1]
         jenis_entitas = param[2]
-        Thread.submit(insert_sumner,entitas,indikator,jenis_entitas)
+        f = Thread.submit(insert_sumner,entitas,indikator,jenis_entitas)
+        fl.append(f)
+    fl = [f.result() for f in fl]
+    return fl
 
 
 
@@ -236,8 +239,9 @@ def proses_ner(item,id_berita):
         konten = item['isi_artikel']
         print("proses_sentimen...")
         Process.submit(proses_sentimen,id_berita,id_indikator,indikator,konten,kutipan)
-        if(simpan.result()!=True):
-            print("error with sumner nih")
+        sr = simpan.result()
+        for er in sr:
+            print(er)
     
     return True
 def insert_sum_sumber(waktu,sumber):
