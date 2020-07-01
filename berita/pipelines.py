@@ -181,9 +181,9 @@ def insert_sumner(entitas,indikator,jenis_entitas,jumlah=1):
     on duplicate key update jumlah = jumlah +1
     '''
     database = Database_connection()
-
+    param = (entitas,indikator,jenis_entitas,1)
     try:
-        database.kursor.executemany(query,full_param)
+        database.kursor.executemany(query,param)
         database.koneksi.commit()
     except Exception as ex:
         database.koneksi.rollback()
