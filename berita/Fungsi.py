@@ -6,7 +6,7 @@ def justAlphaNumSpace(kata):
 	kata = space.sub(' ',kata).strip()
 	kata = alphanumeric.sub('',kata)
 	return kata
-def set_listkatakunci():
+def get_listkatakunci():
 
   database = Database_connection()
   query = '''select k.id_indikator, k.katakunci, r.indikator 
@@ -29,9 +29,7 @@ def set_listkatakunci():
   database.tutup()
   return list_katakunci
 
-def get_listkatakunci():
-	list_katakunci = set_listkatakunci()
-	return list_katakunci
+
 def isBerita(url):
     site_berita = re.compile(r'https\:\/\/[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+\/berita\S*\/')
     logika = bool(site_berita.search(url))

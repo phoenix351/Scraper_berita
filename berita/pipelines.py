@@ -6,7 +6,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 from scrapy.exceptions import DropItem
-from  berita import NER_processing 
+from  berita.NER_processing import ner_modeling
 from  berita.NER_processing import kata2list
 from berita.sentimen import sentiment
 import re
@@ -200,7 +200,7 @@ def simpan_sumner(ner_result,indikator):
     return True
 
 def proses_ner(item,id_berita):
-    ner_result = NER_processing.ner_modeling(item['isi_artikel'],id_berita)
+    ner_result = ner_modeling(item['isi_artikel'],id_berita)
     
     #ubah hasil NER kategori NER indikator menjadi id_indikator dan indikator 
     indikator_list = ner_result['indikator']
