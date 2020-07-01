@@ -255,7 +255,7 @@ def insert_sum_sumber(waktu,sumber):
         database.koneksi.rollback()
     database.tutup()
 
-def insert_berita(item):
+def simpan_berita(item):
     
     waktu = item['waktu']
     sumber = item['sumber']
@@ -281,7 +281,6 @@ def insert_berita(item):
         id_generated = database.kursor.lastrowid
     except Exception as ex:
         database.koneksi.rollback()
-        print(ex)
         return 0
     database.tutup()
     return id_generated
@@ -299,7 +298,7 @@ class BeritaPipeline(object):
 
         #insert berita
         proses_tags(item['waktu'],item['tag'])
-        id_berita = insert_berita(item)
+        id_berita = simpan_berita(item)
 
         #if any duplicate items
         if id_berita==0:

@@ -74,7 +74,7 @@ def ner_modeling(konten,id_berita):
   for ind in indicator:
     filtered = kata_Indikator(ind)
     if filtered != 0:
-      list_indikator.append(indikator)
+      list_indikator.append(filtered)
 
   if len(list_indikator)>=1:
 
