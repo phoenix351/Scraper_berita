@@ -10,7 +10,7 @@ from  berita.NER_processing import ner_modeling
 from  berita.NER_processing import kata2list
 from berita.sentimen import sentiment
 import re
-from berita.Database_connection import Database_connection as db
+from berita.Database_connection import Database_connection
 import ast
 from concurrent.futures import ThreadPoolExecutor
 from berita.NER_processing import justAlphaNum
@@ -35,7 +35,7 @@ def update_indikatorsum(item,indikator,id_indikator):
     on duplicate key update jumlah = jumlah + 1
     """
     param = (item['waktu'],indikator)
-    database = db()
+    database = Database_connection()
     try:
         database.kursor.execute(qsum,param)
         database.koneksi.commit()
@@ -51,7 +51,7 @@ def update_indikatorsum(item,indikator,id_indikator):
     where id_indikator like %s    
     """
     param1 = ('%'+id_indikator+'%',)
-    database = db()
+    database = Database_connection()
     try:
         database.kursor.execute(qind,param1)
         database.koneksi.commit()
@@ -70,7 +70,7 @@ def simpan_tag(waktu,tag):
     on duplicate key update jumlah = jumlah + 1
     """
     param = (waktu,tag)
-    database = db()
+    database = Database_connection()
     try:
         database.kursor.execute(query,param)
         database.koneksi.commit()
@@ -114,7 +114,7 @@ def simpan_sentimen(id_berita,id_indikator,sentimen_isi,sentimen_kutipan):
     par_kutipan = (id_berita,id_indikator,indikator,sentimen_kutipan,'kutipan',
         id_indikator,indikator,sentimen_kutipan)
     #prepare  database connection
-    database = db()
+    database = Database_connection()
     #execute 
     try:
         database.kursor.execute(querysent,par_isi)
@@ -127,7 +127,7 @@ def simpan_sentimen(id_berita,id_indikator,sentimen_isi,sentimen_kutipan):
     database.tutup()
 
     #prepare  database connection
-    database = db()
+    database = Database_connection()
     try:
         database.kursor.execute(querysent,par_kutipan)
         database.koneksi.commit()
@@ -166,7 +166,7 @@ def simpan_ner(ner_result,id_berita):
         str(ner_result['kutipan'])
         )
     
-    database = db()
+    database = Database_connection()
     try:
         database.kursor.execute(query_ner,parameter)
         database.koneksi.commit()
@@ -235,7 +235,7 @@ def insert_sum_sumber(waktu,sumber):
     on duplicate key update jumlah = jumlah + 1 
     """
     param = (item['waktu'],item['sumber'])
-    database = db()
+    database = Database_connection()
     try:
         database.kursor.execute(qsum,param)
         database.koneksi.commit()
@@ -261,7 +261,7 @@ def simpan_berita(item):
         item['sumber'],
         )
     # open
-    database = db()
+    database = Database_connection()
     try:
         database.kursor.execute(query, params)
         database.koneksi.commit()
