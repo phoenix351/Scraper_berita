@@ -256,7 +256,7 @@ def insert_sum_sumber(waktu,sumber):
     values (%s,%s,1)
     on duplicate key update jumlah = jumlah + 1 
     """
-    param = (item['waktu'],item['sumber'])
+    param = (waktu,sumber)
     database = Database_connection()
     try:
         database.kursor.execute(qsum,param)
