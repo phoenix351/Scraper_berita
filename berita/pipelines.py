@@ -183,7 +183,7 @@ def insert_sumner(entitas,indikator,jenis_entitas,jumlah=1):
     database = Database_connection()
     param = (entitas,indikator,jenis_entitas,1)
     try:
-        database.kursor.executemany(query,param)
+        database.kursor.execute(query,param)
         database.koneksi.commit()
     except Exception as ex:
         database.koneksi.rollback()
