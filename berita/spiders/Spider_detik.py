@@ -58,7 +58,7 @@ class Detik_scraper(scrapy.Spider):
           if rasio < 2:
             kirim_notif(self.name)
         except:
-          kirim_notif(self.name)
+          pass
       
         
     def parse_artikel(self,response):

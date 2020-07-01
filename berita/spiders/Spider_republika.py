@@ -64,7 +64,7 @@ class Republik_spider(scrapy.Spider):
         if rasio < 2:
           kirim_notif(self.name)
       except:
-        kirim_notif(self.name)
+        pass
       sys.exit("scraping Republika - selesai")
 
 

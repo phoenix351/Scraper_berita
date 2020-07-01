@@ -64,7 +64,7 @@ class Okezone_spider(scrapy.Spider):
           if rasio < 2:
             kirim_notif(self.name)
         except:
-          kirim_notif(self.name)
+          pass
         print("scraping ---- Selesai Total halaman = ",self.hal)
         print("jumlah berita  =",jumlah_berita,"----halaman =",self.hal)
       

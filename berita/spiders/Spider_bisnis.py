@@ -69,7 +69,7 @@ class Bisnis_spider(scrapy.Spider):
           if rasio < 2:
             kirim_notif(self.name)
         except:
-          kirim_notif(self.name)
+          pass
         print("scraping ---- Selesai Total halaman = ",self.hal)
         print("jumlah berita  =",jumlah_berita,"----halaman =",self.hal)
       
@@ -126,7 +126,7 @@ class Bisnis_spider(scrapy.Spider):
         waktu = waktu.replace(bulan,beda[bulan])
       except:
         waktu = datetime.strptime(self.tanggal,r'%d+%B+%Y')
-        
+
       waktu = datetime.strptime(waktu,'%d %B %Y')
       # masukkan ke item pipeline
       item = BeritaItem()
