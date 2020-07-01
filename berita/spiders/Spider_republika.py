@@ -3,7 +3,7 @@ from re import findall
 from datetime import datetime,timedelta
 from berita.items import BeritaItem
 import sys
-from berita.pipelines import isBerita
+from berita.fungsi import isBerita
 from berita.kirim_notif import kirim_notif
 class Republik_spider(scrapy.Spider):
   name = "repu_spider"

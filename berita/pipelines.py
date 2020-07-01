@@ -13,29 +13,13 @@ import re
 from berita.Database_connection import Database_connection as db
 import ast
 from concurrent.futures import ThreadPoolExecutor
-Thread = ThreadPoolExecutor(max_workers=7)
-def justAlphaNum(kata):
-    alphanumeric = re.compile(r'[^a-zA-Z0-9]')
-    space = re.compile(r'\s+')
-    kata = space.sub(' ',kata).strip()
-    kata = alphanumeric.sub('',kata)
-    return kata
-def isBerita(url):
-    site_berita = re.compile(r'https\:\/\/[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+\/berita\S*\/')
-    logika = bool(site_berita.search(url))
-    return logika
+from berita.fungsi import justAlphaNum
+from berita.fungsi import get_listkatakunci
+from berita.fungsi import isJS
 
-def isJS(kalimat):
-    a = re.compile(r'var\s*[a-zA-Z_]*\s*=\s*[\S]*;')
-    b = re.compile(r'let\s*\S*\s*=\s*[\S]*;*')
-    c = re.compile(r'function \S+\(\S*\)\s*\{[\s\s]*\}')
-    x = bool(a.search(kalimat))
-    y = bool(b.search(kalimat))
-    z = bool(c.search(kalimat))
-    if x or y or z:
-        return True
-    else:
-        return False
+Thread = ThreadPoolExecutor(max_workers=7)
+
+
 def update_indikatorsum(item,indikator,id_indikator):
     """
     item : item hasil scraping

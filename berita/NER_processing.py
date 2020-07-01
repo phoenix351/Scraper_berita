@@ -3,37 +3,14 @@ import spacy
 import os
 path_file = os.path.dirname(os.path.abspath(__file__))
 import re
-from collections import Counter
-import operator
-import numpy as np
-import ast
 from concurrent.futures import ProcessPoolExecutor
 from berita.Database_connection import Database_connection
-from berita.pipelines import justAlphaNum
-def get_listkatakunci():
-  database = Database_connection()
-  query = '''select k.id_indikator, k.katakunci, r.indikator 
-  from katakunci_indikator k, indikator_ref r 
-  where r.id_indikator = k.id_indikator
-  '''
-  list_katakunci = []
-  try:
-    database.kursor.execute(query)
-    result = database.kursor.fetchall()
-    for r in result:
-      kamus = {
-      'id_indikator':r[0],
-      'indikator':r[2],
-      'katakunci':r[1].lower()}
-      list_katakunci.append(kamus)
-  except Exception as ex:
-    print("gagal melakukan query")
-    print(ex)
-  database.tutup()
-  return list_katakunci
-list_katakunci = get_listkatakunci()
+from berita.fungsi import justAlphaNum
+from berita.fungsi import get_listkatakunci
+
+
 def kata_Indikator(kata):
-  
+  list_katakunci = get_listkatakunci()
   kata = str(kata).lower()
   if len(kata) < 3 :
     return 0
