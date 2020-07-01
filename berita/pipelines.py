@@ -172,12 +172,13 @@ def simpan_ner(ner_result,id_berita):
     """ 
     parameter = (
         id_berita,
-        ner_result['indikator'],
-        ner_result['tokoh'],
-        ner_result['organisasi'],
-        ner_result['posisi'],
-        ner_result['lokasi'],
-        ner_result['kutipan'])
+       str( ner_result['indikator']),
+        str(ner_result['tokoh']),
+        str(ner_result['organisasi']),
+        str(ner_result['posisi']),
+        str(ner_result['lokasi']),
+        str(ner_result['kutipan'])
+        )
     
     database = db()
     try:
@@ -187,11 +188,36 @@ def simpan_ner(ner_result,id_berita):
         database.koneksi.rollback()
         print(ex)
     database.tutup()
+def simpan_sumner(ner_result,indikator):
+    query = '''insert into sum_ner
+    values (%s,%s,%s,1)
+    on duplicate key jumlah = jumlah +1
+    '''
+    full_param = []
+    tokoh = [(t,indikator,'tokoh') for t in ner_result['tokoh']]
+    full_param.extend(tokoh)
+    posisi = [(t,indikator,'posisi') for t in ner_result['posisi']]
+    full_param.extend(posisi)
+    organisasi = [(t,indikator,'organisasi') for t in ner_result['organisasi']]
+    full_param.extend(organisasi)
+    lokasi = [(t,indikator,'lokasi') for t in ner_result['lokasi']]
+    full_param.extend(lokasi)
+
+    database = Database_connection()
+    try:
+        database.kursor.executemany(query,full_param)
+        database.koneksi.commit()
+    except Exception as ex:
+        database.koneksi.rollback()
+        print(ex)
+        return False
+    return True
+
 def proses_ner(item,id_berita):
     ner_result = NER_processing.ner_modeling(item['isi_artikel'],id_berita)
     
     #ubah hasil NER kategori NER indikator menjadi id_indikator dan indikator 
-    indikator_list = ast.literal_eval(ner_result['indikator'])
+    indikator_list = ner_result['indikator']
     for row in indikator_list:
         id_indikator = row['id_indikator']
         id_indikator = justAlphaNum(id_indikator)
@@ -205,7 +231,9 @@ def proses_ner(item,id_berita):
         Thread.submit(update_indikatorsum,item,indikator,id_indikator)    
         print("simpan_ner...")
         Thread.submit(simpan_ner,ner_result,id_berita)
-        kutipan = ' '.join(kata2list(ner_result['kutipan']))
+        print("simpan summary ner ...")
+        Thread.submit(simpan_sumner,ner_result,indikator)
+        kutipan = ' '.join(ner_result['kutipan'])
         konten = item['isi_artikel']
         print("proses_sentimen...")
         proses_sentimen(id_berita,id_indikator,indikator,konten,kutipan)
