@@ -85,8 +85,11 @@ class Republik_spider(scrapy.Spider):
     
       judul = konten.css(judul_selector).get()
       waktu = konten.css(waktu_selector).get()
-      waktu = ''.join(findall('\d{2}\s[a-zA-z]+\s\d{4}\s+\d{2}:\d{2}',waktu))
-      waktu = datetime.strptime(waktu,'%d %b %Y  %H:%M')
+      try:
+        waktu = ''.join(findall('\d{2}\s[a-zA-z]+\s\d{4}\s+\d{2}:\d{2}',waktu))
+        waktu = datetime.strptime(waktu,'%d %b %Y  %H:%M')
+      except:
+        waktu = datetime.strptime(self.tanggal,r'%Y/%m/%d')
 
       isi = konten.css(isi_selector).getall()
       tag = konten.css(tag_selector).getall()

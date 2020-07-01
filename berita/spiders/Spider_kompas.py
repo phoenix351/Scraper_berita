@@ -91,8 +91,11 @@ class Kompas_spider(scrapy.Spider):
         
       isi = ' '.join(isi_fix)
       w_re = '\d{2}\/\d{2}\/\d{4}, \d{2}:\d{2}'
-      waktu = ''.join(findall(w_re,waktu))
-      waktu_ob = datetime.strptime(waktu,'%d/%m/%Y, %H:%M')
+      try:
+        waktu = ''.join(findall(w_re,waktu))
+        waktu_ob = datetime.strptime(waktu,'%d/%m/%Y, %H:%M')
+      except:
+        waktu_ob = datetime.strptime(self.tanggal,r'%Y-%m-%d')
       
       # masukkan ke item pipeline
       item = BeritaItem()

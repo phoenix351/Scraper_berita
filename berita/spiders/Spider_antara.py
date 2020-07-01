@@ -118,7 +118,7 @@ class Antara_spider(scrapy.Spider):
         
       isi = ' '.join(isi_fix)
 
-      waktu = ''.join(findall('\d+\s+[a-zA-Z]+\s+\d{4}',waktu))
+      
 
       beda = {
         'Januari':'January',
@@ -131,15 +131,14 @@ class Antara_spider(scrapy.Spider):
         'Oktober':'October',
         'Desember':'December'
       }
-      bulan = ''.join(findall('[a-zA-Z]+',waktu))
-      
-      try:
-        waktu = waktu.replace(bulan,beda[bulan])
-      except:
-        print('already same')
-      
-      waktu = datetime.strptime(waktu,'%d %B %Y')
 
+      try:
+        waktu = ''.join(findall('\d+\s+[a-zA-Z]+\s+\d{4}',waktu))
+        bulan = ''.join(findall('[a-zA-Z]+',waktu))
+        waktu = waktu.replace(bulan,beda[bulan])
+        waktu = datetime.strptime(waktu,'%d %B %Y')
+      except:
+        waktu = datetime.strptime(self.tanggal,r'%d-%m-%Y')
 
       
       # masukkan ke item pipeline

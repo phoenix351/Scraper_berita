@@ -123,11 +123,12 @@ class Bisnis_spider(scrapy.Spider):
       try:
         waktu = ''.join(findall('\d{2}\s+[a-zA-Z]+\s+\d{4}',waktu))
         bulan = ''.join(findall('[a-zA-Z]+',waktu))
+        waktu = waktu.replace(bulan,beda[bulan])
       except:
-        waktu = self.tanggal.strptime(r'%d+%B+%Y')
+        waktu = datetime.strptime(self.tanggal,r'%d+%B+%Y')
 
       try:
-        waktu = waktu.replace(bulan,beda[bulan])
+        
       except:
         #print('already same')
         pass

@@ -102,7 +102,7 @@ class Okezone_spider(scrapy.Spider):
         
       isi = ' '.join(isi_fix)
 
-      waktu = ''.join(findall('\d{2}\s+[a-zA-Z]+\s+\d{4}\s+\d{2}:\d{2}',waktu))
+      
 
       beda = {
         'Januari':'January',
@@ -115,17 +115,16 @@ class Okezone_spider(scrapy.Spider):
         'Oktober':'October',
         'Desember':'December'
       }
-      bulan = ''.join(findall('[a-zA-Z]+',waktu))
+      
       
       try:
+        waktu = ''.join(findall('\d{2}\s+[a-zA-Z]+\s+\d{4}\s+\d{2}:\d{2}',waktu))
+        bulan = ''.join(findall('[a-zA-Z]+',waktu))
         waktu = waktu.replace(bulan,beda[bulan])
+        waktu = datetime.strptime(waktu,'%d %B %Y %H:%M')
       except:
-        print('already same')
-      
-      waktu = datetime.strptime(waktu,'%d %B %Y %H:%M')
-
-
-      
+        waktu = datetime.strptime(waktu,r'%Y/%m/%d')
+            
       # masukkan ke item pipeline
       item = BeritaItem()
       item['waktu'] = waktu
