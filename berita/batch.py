@@ -18,13 +18,13 @@ def skrep(tanggal):
   i = 0
   for nama in nama_py:
     nama_log = log_list[i]+tanggal+".log"
-    bash = "scrapy runspider "+nama+" -a tanggal="+tanggal+" > "+nama_log
+    bash = "scrapy runspider "+nama+" -a tanggal="+tanggal+" &> "+nama_log
     bash_list.append(bash)
     bashx = bash.split()
     try:
-      proses = subprocess.run(bashx,shell=True, check=True)
-      #subprocess.check_output(bash, shell=True)
-      print(proses.returncode)
+      
+      subprocess.check_output(bash, shell=True)
+      #print(proses.returncode)
     except Exception as e:
       output = e
       print(output)
