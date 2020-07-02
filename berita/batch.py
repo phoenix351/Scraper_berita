@@ -20,7 +20,7 @@ def skrep(tanggal):
     nama_log = log_list[i]+tanggal+".log"
     bash = "scrapy runspider "+nama+" -a tanggal="+tanggal+" > "+nama_log
     bash_list.append(bash)
-    bashx = ["scrapy","runspider",nama,"-a","tanggal="+tanggal,">",nama_log]
+    bashx = bash.split()
     try:
       proses = subprocess.run(bashx,shell=True, check=True)
       #subprocess.check_output(bash, shell=True)
