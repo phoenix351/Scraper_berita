@@ -22,10 +22,12 @@ def skrep(tanggal):
     bash_list.append(bash)
     bashx = ["scrapy","runspider",nama,"-a","tanggal="+tanggal,">",nama_log]
     try:
-      subprocess.run(bashx)
+      proses = subprocess.run(bashx)
       #subprocess.check_output(bash, shell=True)
-    except subprocess.CalledProcessError as e:
+      print(proses.returncode)
+    except SubprocessError as e:
       output = e.output
+      print(output)
   
 
 def buatlist_tanggal(dari):
