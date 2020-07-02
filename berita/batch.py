@@ -22,7 +22,7 @@ def skrep(tanggal):
     bash_list.append(bash)
     bashx = ["scrapy","runspider",nama,"-a","tanggal="+tanggal,">",nama_log]
     try:
-      proses = subprocess.run(bashx)
+      proses = subprocess.run(bashx,shell=True, check=True)
       #subprocess.check_output(bash, shell=True)
       print(proses.returncode)
     except SubprocessError as e:
