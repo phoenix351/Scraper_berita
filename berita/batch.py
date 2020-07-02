@@ -20,8 +20,10 @@ def skrep(tanggal):
     nama_log = log_list[i]+tanggal+".log"
     bash = "scrapy runspider "+nama+" -a tanggal="+tanggal+" > "+nama_log
     bash_list.append(bash)
+    bashx = ["scrapy","runspider",nama,"-a","tanggal="+tanggal,">",nama_log]
     try:
-      subprocess.check_output(bash, shell=True)
+      subprocess.run(bashx)
+      #subprocess.check_output(bash, shell=True)
     except subprocess.CalledProcessError as e:
       output = e.output
   
