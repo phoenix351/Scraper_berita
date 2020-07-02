@@ -66,7 +66,7 @@ def simpan_tag(waktu,tag):
     waktu : string dengan format %Y-%m-%d atau python datetime.datetime
     """
     query = """
-    insert into sum_tags (waktu, tag, jumlah)
+    insert into sum_tag (waktu, tag, jumlah)
     values(%s,%s,1)
     on duplicate key update jumlah = jumlah + 1
     """
