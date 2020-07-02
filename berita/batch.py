@@ -25,8 +25,8 @@ def skrep(tanggal):
       proses = subprocess.run(bashx,shell=True, check=True)
       #subprocess.check_output(bash, shell=True)
       print(proses.returncode)
-    except SubprocessError as e:
-      output = e.output
+    except Exception as e:
+      output = e
       print(output)
   
 
